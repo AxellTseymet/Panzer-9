@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panzer-9</title>
+    <link rel="icon" type="image/x-icon" href="img/skull.ico">
+
+    <style>
+        @font-face { 
+            font-family: 'Warface'; 
+            src: url('img/Warface.ttf') format('truetype'); 
+            font-display: swap;
+        }
+        @font-face { 
+            font-family: 'Wolfenstein'; 
+            src: url('img/wolfenstein.ttf') format('truetype'); 
+            font-display: swap;
+        }
+
+        :root {
+            --yellow: #ffcc00; 
+            --black: #000000; 
+            --white: #ffffff; 
+            --red: #ff0000;
+            --danger-stripe: repeating-linear-gradient(45deg, #ffcc00, #ffcc00 20px, #000 20px, #000 40px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { 
+            background: var(--black); 
+            color: var(--white); 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+            font-family: sans-serif; 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header { background: #000; display: flex; justify-content: space-between; align-items: center; padding: 0 5%; position: sticky; top: 0; z-index: 1000; border-bottom: 5px solid var(--yellow); height: 130px; }
+        header::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: var(--danger-stripe); background-size: 56.5px 100%; animation: moveStripes 1.2s linear infinite; }
+        @keyframes moveStripes { from { background-position: 0 0; } to { background-position: 56.5px 0; } }
+        
+        .left-side { display: flex; align-items: center; height: 100%; }
+        .header-pic { height: 75px; width: auto; object-fit: contain; }
+        
+        .logo-area { display: flex; flex-direction: column; margin-left: 15px; }
+        .logo { font-family: 'Wolfenstein', serif !important; color: #ffffff !important; font-size: clamp(1.8rem, 5vw, 3.5rem); text-transform: uppercase; line-height: 1; letter-spacing: 2px; }
+        
+        #insane-text { 
+            font-family: 'Warface', sans-serif; 
+            color: var(--red); 
+            font-size: 0.9rem; 
+            margin-top: 5px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-right { display: flex; align-items: center; }
+
+        #lang-display-btn { 
+            font-family: 'Warface', sans-serif !important; 
+            background: none; 
+            border: 2px solid var(--yellow); 
+            color: var(--yellow); 
+            padding: 10px 25px; 
+            font-size: 0.9rem; 
+            white-space: nowrap; 
+            transition: 0.3s; 
+            cursor: pointer; 
+        }
+        #lang-display-btn:hover { background: var(--yellow); color: #000; }
+
+        #site-content { flex: 1 0 auto; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 40px 8%; }
+        .video-banner { aspect-ratio: 16/9; background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('img/header-photo.jpg'); background-size: cover; border: 1px solid #333; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.3s; position: relative; overflow: hidden; opacity: 0; transform: translateY(20px); text-align: center; padding: 15px; cursor: pointer; }
+        .video-banner.show { opacity: 1; transform: translateY(0); }
+        .video-banner:hover { border-color: var(--yellow); transform: scale(1.03); filter: brightness(1.2); }
+        
+        .banner-text { position: relative; z-index: 2; color: var(--white); font-family: 'Warface', sans-serif; font-size: 2.2rem; margin-bottom: 5px; }
+        .banner-subtext { position: relative; z-index: 2; color: var(--yellow); font-size: 1.1rem; font-family: 'Warface'; text-transform: uppercase; margin-bottom: 8px; }
+
+        footer {
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 2px solid #222;
+            color: #555;
+            font-family: 'Warface', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            background: #000;
+        }
+
+        .video-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; justify-content: center; align-items: center; z-index: 6000; padding: 20px; }
+        .video-modal.active { display: flex; }
+        .video-content { border: 2px solid var(--yellow); background: #000; position: relative; display: flex; flex-direction: column; width: 100%; max-height: 90vh; }
+        .video-content.horizontal { max-width: 950px; }
+        .video-content.vertical { height: 85vh; width: auto; }
+        .video-content video { height: 100%; width: 100%; display: block; object-fit: contain; }
+        .close-video { position: absolute; top: 0; right: 0; background: var(--yellow); color: #000; font-family: 'Warface'; cursor: pointer; font-size: 0.8rem; padding: 8px 12px; z-index: 6100; border-left: 2px solid var(--black); border-bottom: 2px solid var(--black); }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: flex; justify-content: center; align-items: center; z-index: 9999; visibility: hidden; opacity: 0; transition: 0.3s; padding: 20px; }
+        .modal-overlay.active { visibility: visible; opacity: 1; }
+        .lang-modal { padding: 40px; border: 4px solid var(--yellow); text-align: center; background: #050505; width: 100%; max-width: 500px; }
+        .modal-lang-btn { width: 100%; margin-bottom: 15px; background: #111; color: white; border: 1px solid #333; font-family: 'Warface'; padding: 15px; cursor: pointer; transition: 0.2s; }
+        .modal-lang-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+
+        @media (max-width: 768px) {
+            header { height: auto; padding: 25px 5%; flex-direction: column; gap: 15px; text-align: center; }
+            .left-side { flex-direction: column; }
+            .logo-area { margin-left: 0; margin-top: 10px; }
+            .header-right { width: 100%; justify-content: center; }
+            #lang-display-btn { width: 80%; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="videoModal" class="video-modal" onclick="closeVideo()">
+        <div class="video-content" id="videoContent" onclick="event.stopPropagation()">
+            <div class="close-video" onclick="closeVideo()">X CLOSE</div>
+            <video id="mainPlayer" controls playsinline></video>
+        </div>
+    </div>
+
+    <div id="langModal" class="modal-overlay" onclick="if(event.target == this) toggleModal()">
+        <div class="lang-modal">
+            <h2 style="font-family: 'Warface'; color: white; margin-bottom: 20px;">SELECT LANGUAGE</h2>
+            <button class="modal-lang-btn" onclick="changeLanguage('en')">ENGLISH</button>
+            <button class="modal-lang-btn" onclick="changeLanguage('ru')">РУССКИЙ</button>
+            <button class="modal-lang-btn" onclick="changeLanguage('ua')">УКРАЇНСЬКА</button>
+        </div>
+    </div>
+
+    <div id="site-content">
+        <header>
+            <div class="left-side">
+                <img src="img/skull.png" alt="Logo" class="header-pic">
+                <div class="logo-area">
+                    <div class="logo">Panzer-9</div>
+                    <div id="insane-text">Every day we go insane</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="lang-display-btn" onclick="toggleModal()">LANG</button>
+            </div>
+        </header>
+        <main class="video-grid" id="main-grid"></main>
+    </div>
+
+    <footer id="footer-text">
+        2013-2015 © Panzer-9.
+    </footer>
+
+    <script>
+        const translations = {
+            en: { btn: "LANG", subtext: "VIDEO", cat2: "STICKERS", insane: "Every day we go insane"},
+            ru: { btn: "ЯЗЫК", subtext: "ВИДЕО", cat2: "СТИКЕРЫ", insane: "Каждый день мы сходим с ума"},
+            ua: { btn: "МОВА", subtext: "ВІДЕО", cat2: "СТІКЕРИ", insane: "Кожен день ми божеволіємо" }
+        };
+
+        function renderBanners(lang) {
+            const grid = document.getElementById('main-grid');
+            grid.innerHTML = '';
+
+            for (let i = 1; i <= 9; i++) {
+                const name = i === 1 ? 'sticker' : `sticker${i}`;
+                createBanner(grid, `img/${name}.webm`, lang, translations[lang].cat2, i);
+            }
+            for (let i = 1; i <= 9; i++) {
+                createBanner(grid, `img/${i}.mp4`, lang, translations[lang].subtext, i + 9);
+            }
+            for (let i = 10; i <= 13; i++) {
+                createBanner(grid, `img/${i}.mp4`, lang, translations[lang].subtext, i + 9);
+            }
+
+            const banners = document.querySelectorAll('.video-banner');
+            banners.forEach((b, index) => { setTimeout(() => b.classList.add('show'), index * 60); });
+        }
+
+        function createBanner(container, src, lang, label, num) {
+            const banner = document.createElement('div');
+            banner.className = 'video-banner';
+            banner.onclick = () => openVideo(src);
+            banner.innerHTML = `
+                <div class="banner-text">#${num}</div>
+                <div class="banner-subtext">${label}</div>
+            `;
+            container.appendChild(banner);
+        }
+
+        function openVideo(src) {
+            const modal = document.getElementById('videoModal');
+            const content = document.getElementById('videoContent');
+            const player = document.getElementById('mainPlayer');
+            player.src = src;
+            content.classList.remove('vertical', 'horizontal');
+            player.onloadedmetadata = function() {
+                content.classList.add(this.videoHeight > this.videoWidth ? 'vertical' : 'horizontal');
+            };
+            modal.classList.add('active');
+            player.play();
+        }
+
+        function closeVideo() {
+            document.getElementById('videoModal').classList.remove('active');
+            const player = document.getElementById('mainPlayer');
+            player.pause(); 
+            player.src = "";
+        }
+
+        function toggleModal() { document.getElementById('langModal').classList.toggle('active'); }
+
+        function changeLanguage(lang) {
+            const data = translations[lang];
+            document.getElementById('lang-display-btn').innerText = data.btn;
+            document.getElementById('insane-text').innerText = data.insane;
+            renderBanners(lang);
+            toggleModal();
+        }
+
+        window.onload = () => {
+            const defaultLang = 'en'; 
+            document.getElementById('lang-display-btn').innerText = translations[defaultLang].btn;
+            document.getElementById('insane-text').innerText = translations[defaultLang].insane;
+            renderBanners(defaultLang);
+        };
+    </script>
+</body>
+</html>
