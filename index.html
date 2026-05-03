@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panzer-9</title>
-    <link rel="icon" type="image/x-icon" href="img/skull.ico">
+    <link rel="icon" type="image/x-icon" href="skull.ico">
 
     <style>
         @font-face { 
             font-family: 'Warface'; 
-            src: url('img/Warface.ttf') format('truetype'); 
+            src: url('Warface.ttf') format('truetype'); 
             font-display: swap;
         }
         @font-face { 
             font-family: 'Wolfenstein'; 
-            src: url('img/wolfenstein.ttf') format('truetype'); 
+            src: url('wolfenstein.ttf') format('truetype'); 
             font-display: swap;
         }
 
@@ -75,7 +75,7 @@
 
         #site-content { flex: 1 0 auto; }
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 40px 8%; }
-        .video-banner { aspect-ratio: 16/9; background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('img/header-photo.jpg'); background-size: cover; border: 1px solid #333; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.3s; position: relative; overflow: hidden; opacity: 0; transform: translateY(20px); text-align: center; padding: 15px; cursor: pointer; }
+        .video-banner { aspect-ratio: 16/9; background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('header-photo.jpg'); background-size: cover; border: 1px solid #333; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.3s; position: relative; overflow: hidden; opacity: 0; transform: translateY(20px); text-align: center; padding: 15px; cursor: pointer; }
         .video-banner.show { opacity: 1; transform: translateY(0); }
         .video-banner:hover { border-color: var(--yellow); transform: scale(1.03); filter: brightness(1.2); }
         
@@ -137,7 +137,7 @@
     <div id="site-content">
         <header>
             <div class="left-side">
-                <img src="img/skull.png" alt="Logo" class="header-pic">
+                <img src="skull.png" alt="Logo" class="header-pic">
                 <div class="logo-area">
                     <div class="logo">Panzer-9</div>
                     <div id="insane-text">Every day we go insane</div>
@@ -164,16 +164,16 @@
         function renderBanners(lang) {
             const grid = document.getElementById('main-grid');
             grid.innerHTML = '';
-
+            
             for (let i = 1; i <= 9; i++) {
                 const name = i === 1 ? 'sticker' : `sticker${i}`;
-                createBanner(grid, `img/${name}.webm`, lang, translations[lang].cat2, i);
+                createBanner(grid, `${name}.webm`, lang, translations[lang].cat2, i);
             }
             for (let i = 1; i <= 9; i++) {
-                createBanner(grid, `img/${i}.mp4`, lang, translations[lang].subtext, i + 9);
+                createBanner(grid, `${i}.mp4`, lang, translations[lang].subtext, i + 9);
             }
             for (let i = 10; i <= 13; i++) {
-                createBanner(grid, `img/${i}.mp4`, lang, translations[lang].subtext, i + 9);
+                createBanner(grid, `${i}.mp4`, lang, translations[lang].subtext, i + 9);
             }
 
             const banners = document.querySelectorAll('.video-banner');
