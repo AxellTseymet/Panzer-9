@@ -3,517 +3,313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Panzer-9</title>
+    <title>Panzer-9 — About</title>
     <link rel="icon" type="image/x-icon" href="skull.ico">
-
     <style>
-        @font-face { 
-            font-family: 'Warface'; 
-            src: url('Warface.ttf') format('truetype'); 
-            font-display: swap;
-        }
-        @font-face { 
-            font-family: 'Wolfenstein'; 
-            src: url('wolfenstein.ttf') format('truetype'); 
-            font-display: swap;
-        }
-        @font-face { 
-            font-family: 'RussoOne-Regular'; 
-            src: url('RussoOne-Regular.ttf') format('truetype'); 
-            font-display: swap;
-        }
-
-        :root {
-            --yellow: #ffcc00; 
-            --black: #000000; 
-            --white: #ffffff; 
-            --red: #ff0000;
-            --danger-stripe: repeating-linear-gradient(45deg, #ffcc00, #ffcc00 20px, #000 20px, #000 40px);
-        }
-
-        .ua-font #lang-display-btn,
-        .ua-font #about-btn,
-        .ua-font #home-btn,
-        .ua-font #insane-text,
-        .ua-font .about-text,
-        .ua-font .modal-lang-btn,
-        .ua-font .lang-modal h2 {
-            font-family: 'RussoOne-Regular', sans-serif !important;
-        }
-
+        @font-face { font-family: 'Warface'; src: url('Warface.ttf') format('truetype'); font-display: swap; }
+        @font-face { font-family: 'Wolfenstein'; src: url('wolfenstein.ttf') format('truetype'); font-display: swap; }
+        @font-face { font-family: 'RussoOne'; src: url('RussoOne-Regular.ttf') format('truetype'); font-display: swap; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body { 
-            background: var(--black); 
-            color: var(--white); 
-            min-height: 100vh; 
-            overflow-x: hidden; 
-            font-family: sans-serif; 
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            transition: background 0.3s, color 0.3s;
+        :root {
+            --yellow: #ffcc00;
+            --danger-stripe: repeating-linear-gradient(45deg, #ffcc00 0 20px, #000 20px 40px);
         }
-
-        header { 
-            background: #000; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 0 5%; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            border-bottom: 5px solid var(--yellow); 
-            height: 130px;
-            flex-wrap: wrap;
-            gap: 10px;
+        body {
+            background: #000; color: #fff; min-height: 100vh; display: flex; flex-direction: column;
+            transition: background .2s, color .2s; font-family: sans-serif;
         }
+        body.light { background: #fff; color: #000; }
+        body.light header { background: #f5f5f5; border-bottom-color: #333; }
+        body.light .photo-section { background: #eaeaea; }
+        body.light footer { background: #f0f0f0; color: #222; }
+        body.light .about-text, body.light .about-text p, body.light .about-text li { color: #000; }
+        body.light .settings-panel { background: #fff; border-left-color: #000; }
+        body.light .settings-item { background: #f0f0f0; border-color: #ccc; }
+        body.light .settings-panel h3 { color: #000 !important; }
+        body.light .settings-item label { color: #000 !important; }
         
-        header::before { 
-            content: ""; 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 6px; 
-            background: var(--danger-stripe); 
-            background-size: 56.5px 100%; 
-            animation: moveStripes 1.2s linear infinite; 
+        header {
+            background: #000; display: flex; justify-content: space-between; align-items: center;
+            padding: 0 5%; position: sticky; top: 0; z-index: 1000; border-bottom: 5px solid var(--yellow);
+            height: 130px; gap: 12px; flex-wrap: wrap;
         }
-        
-        @keyframes moveStripes { 
-            from { background-position: 0 0; } 
-            to { background-position: 56.5px 0; } 
+        header::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 6px;
+            background: var(--danger-stripe); background-size: 56.5px 100%; animation: moveStripes 1.2s linear infinite;
+            pointer-events: none;
         }
-        
-        .left-side { 
-            display: flex; 
-            align-items: center; 
-            height: 100%; 
+        @keyframes moveStripes { to { background-position: 56.5px 0; } }
+        .left-side { display: flex; align-items: center; height: 100%; }
+        .header-pic { height: 75px; width: auto; margin-right: 15px; object-fit: contain; }
+        .logo-area { display: flex; flex-direction: column; }
+        .logo { font-family: 'Wolfenstein', serif; font-size: clamp(1.8rem, 5vw, 3.2rem); text-transform: uppercase; letter-spacing: 2px; color: #fff; }
+        body.light .logo { color: #000 !important; }
+        #insane-text { font-family: 'Warface', sans-serif; color: #ff0000; font-size: 0.85rem; margin-top: 5px; text-transform: uppercase; }
+        .header-right { display: flex; align-items: center; gap: 12px; margin-left: auto; flex-wrap: wrap; }
+        .header-right button, #lang-display-btn {
+            font-family: 'Warface', sans-serif; background: none; border: 2px solid var(--yellow); color: var(--yellow);
+            padding: 8px 20px; font-size: 0.85rem; cursor: pointer; transition: .2s; white-space: nowrap;
         }
-        
-        .header-pic { 
-            height: 75px; 
-            width: auto; 
-            object-fit: contain; 
-        }
-        
-        .logo-area { 
-            display: flex; 
-            flex-direction: column; 
-            margin-left: 15px; 
-        }
-        
-        .logo { 
-            font-family: 'Wolfenstein', serif !important; 
-            color: #ffffff !important; 
-            font-size: clamp(1.8rem, 5vw, 3.5rem); 
-            text-transform: uppercase; 
-            line-height: 1; 
-            letter-spacing: 2px; 
-        }
-        
-        #insane-text { 
-            font-family: 'Warface', sans-serif; 
-            color: var(--red); 
-            font-size: 0.9rem; 
-            margin-top: 5px; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .header-right { 
-            display: flex; 
-            align-items: center; 
-            gap: 15px;
-            height: fit-content;
-            margin-left: auto;
-        }
-
-        #home-btn { 
-            font-family: 'Warface', sans-serif !important; 
-            background: none; 
-            border: 2px solid var(--yellow); 
-            color: var(--yellow); 
-            padding: 10px 25px; 
-            font-size: 0.9rem; 
-            white-space: nowrap; 
-            transition: 0.3s; 
-            cursor: pointer;
-            height: fit-content;
-        }
-        #home-btn:hover { background: var(--yellow); color: #000; }
-
-        #about-btn { 
-            font-family: 'Warface', sans-serif !important; 
-            background: var(--yellow); 
-            border: 2px solid var(--yellow); 
-            color: #000; 
-            padding: 10px 25px; 
-            font-size: 0.9rem; 
-            white-space: nowrap; 
-            transition: 0.3s; 
-            cursor: pointer;
-            height: fit-content;
-        }
+        .header-right button:hover, #lang-display-btn:hover { background: var(--yellow); color: #000; transform: scale(0.97); }
+        #about-btn { background: var(--yellow); color: #000; }
         #about-btn:hover { background: none; color: var(--yellow); }
-
-        #lang-display-btn { 
-            font-family: 'Warface', sans-serif !important; 
-            background: none; 
-            border: 2px solid var(--yellow); 
-            color: var(--yellow); 
-            padding: 10px 25px; 
-            font-size: 0.9rem; 
-            white-space: nowrap; 
-            transition: 0.3s; 
-            cursor: pointer;
-            height: fit-content;
-        }
-        #lang-display-btn:hover { background: var(--yellow); color: #000; }
-
-        #settings-btn { 
-            background: none; 
-            border: none; 
-            cursor: pointer; 
-            padding: 5px; 
-            display: flex; 
-            align-items: center;
-            justify-content: center;
-        }
-        
-        #settings-btn img { 
-            height: 35px; 
-            width: 35px; 
-            transition: 0.3s; 
-        }
-
-        .settings-panel { 
-            position: fixed; 
-            right: -350px; 
-            top: 0; 
-            width: 320px; 
-            height: 100vh; 
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); 
-            border-left: 3px solid var(--yellow); 
-            z-index: 8000; 
-            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 20px; 
+        #settings-btn { background: none; border: none; cursor: pointer; padding: 5px; display: flex; align-items: center; }
+        #settings-btn img { width: 35px; height: 35px; transition: .2s; }
+        .settings-panel {
+            position: fixed; right: -350px; top: 0; width: 300px; height: 100vh;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border-left: 3px solid var(--yellow); z-index: 8000;
+            transition: right .3s ease; padding: 25px 20px; display: flex; flex-direction: column; gap: 20px;
         }
         .settings-panel.open { right: 0; }
-
-        .settings-item { 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 12px; 
-            background: rgba(0, 0, 0, 0.4); 
-            border: 1px solid #444; 
+        .close-settings-ver {
+            position: absolute; left: -35px; top: 50%; transform: translateY(-50%);
+            background: var(--yellow); color: #000; writing-mode: vertical-rl; padding: 15px 8px;
+            font-family: 'Warface'; font-size: 0.8rem; cursor: pointer; border-radius: 8px 0 0 8px;
+            text-transform: uppercase;
         }
-        .settings-item label { font-family: 'Warface', sans-serif; font-size: 0.85rem; color: #fff; cursor: pointer; }
-
-        .toggle-switch { width: 50px; height: 26px; background: #555; border-radius: 13px; position: relative; cursor: pointer; transition: 0.3s; border: 1px solid #777; }
+        .settings-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid #444; border-radius: 4px; }
+        .settings-item label { font-family: 'Warface', sans-serif; font-size: 0.85rem; cursor: pointer; color: #fff; }
+        .toggle-switch { width: 48px; height: 24px; background: #555; border-radius: 30px; cursor: pointer; position: relative; transition: .2s; border: 1px solid #777; }
+        .toggle-switch::after { content: ''; position: absolute; width: 18px; height: 18px; background: #000; border-radius: 50%; top: 2px; left: 3px; transition: .2s; }
         .toggle-switch.active { background: var(--yellow); }
-        .toggle-switch::after { content: ''; position: absolute; width: 20px; height: 20px; background: #000; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
-        .toggle-switch.active::after { left: 26px; }
-
-        body.light-theme { background: var(--white); color: var(--black); }
-        body.light-theme .logo { color: var(--black) !important; }
-        body.light-theme #insane-text { color: var(--red); }
-        body.light-theme .about-text { color: var(--black); }
-        body.light-theme .about-text p { color: var(--black); }
-        body.light-theme .about-text ul { color: var(--black); }
-        body.light-theme .about-text li { color: var(--black); }
-        body.light-theme header { background: #f5f5f5; border-bottom-color: #333; }
-        body.light-theme .settings-panel { background: #ffffff; border-left-color: #000; }
-        body.light-theme .settings-item { background: #f0f0f0; border-color: #ccc; }
-        body.light-theme .settings-item label { color: var(--black); }
-        body.light-theme footer { background: #f5f5f5; color: #333; }
-        body.light-theme .photo-section { background: #f0f0f0; }
-        body.light-theme .photo-section h2 { color: var(--black); }
-
-        #site-content { flex: 1 0 auto; padding: 40px 8%; text-align: center; }
-        .about-text { font-family: 'Warface', sans-serif; font-size: 1rem; line-height: 1.8; max-width: 800px; margin: 0 auto; text-align: left; }
-        .about-text p { margin-bottom: 15px; }
-        .about-text ul { margin: 20px auto 0; padding-left: 20px; max-width: 800px; text-align: left; }
-        .about-text li { margin-bottom: 0.75rem; }
-
-        .photo-section { background: #0a0a0a; margin: 40px auto 0; padding: 30px 20px; max-width: 980px; border-radius: 10px; transition: background 0.3s, color 0.3s; }
-        .photo-section h2 { font-family: 'Warface', sans-serif; margin-bottom: 20px; font-size: 1.7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--white); }
-        .photo-inner { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-        .photo-card { width: min(460px, 100%); text-align: center; border: 10px solid transparent; border-image: repeating-linear-gradient(45deg, #ffcc00 0 20px, #000 0 40px) 10; border-radius: 14px; padding: 6px; background: #fff; background-clip: padding-box; }
-        .photo-card img { width: 100%; height: auto; display: block; border-radius: 8px; }
-        .photo-card figcaption { display: none; }
-
-        footer {
-            padding: 40px 20px;
-            text-align: center;
-            border-top: 2px solid #222;
-            color: #555;
-            font-family: 'Warface', sans-serif;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            background: #000;
-            transition: background 0.3s, color 0.3s;
+        .toggle-switch.active::after { left: 27px; }
+        
+        #site-content { flex: 1; padding: 40px 6%; text-align: center; }
+        .about-text { font-family: 'Warface', sans-serif; max-width: 850px; margin: 0 auto; text-align: left; font-size: 1rem; line-height: 1.7; }
+        .about-text p { margin-bottom: 1rem; }
+        .about-text ul { margin: 20px 0 0 25px; }
+        .about-text li { margin-bottom: 0.6rem; }
+        .photo-section { background: #0a0a0a; margin: 50px auto 0; padding: 30px 20px; max-width: 1000px; border-radius: 12px; transition: background .2s; }
+        .photo-section h2 { font-family: 'Warface', sans-serif; font-size: 1.5rem; text-transform: uppercase; margin-bottom: 20px; color: inherit; }
+        .photo-inner { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; }
+        .photo-card { width: min(440px, 100%); border: 10px solid transparent; border-image: repeating-linear-gradient(45deg, #ffcc00 0 20px, #000 20px 40px) 10; border-radius: 14px; background: #fff; }
+        .photo-card img { width: 100%; display: block; border-radius: 8px; }
+        footer { padding: 40px 20px; text-align: center; border-top: 2px solid #222; font-family: 'Warface', sans-serif; font-size: 1.1rem; background: #000; transition: .2s; }
+        
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96);
+            display: none; justify-content: center; align-items: center; z-index: 9999;
         }
-
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
         .modal-overlay.active { display: flex; }
-        .lang-modal { padding: 40px; border: 4px solid var(--yellow); text-align: center; background: #050505; width: 100%; max-width: 500px; }
-        .lang-modal h2 { color: white; font-family: 'Warface'; margin-bottom: 20px; }
-        .modal-lang-btn { width: 100%; margin-bottom: 15px; background: #111; color: white; border: 1px solid #333; font-family: 'Warface'; padding: 15px; cursor: pointer; transition: 0.2s; }
+        .lang-modal { padding: 35px; border: 4px solid var(--yellow); text-align: center; background: #050505; max-width: 450px; width: 90%; }
+        .lang-modal h2 { font-family: 'Warface'; color: #fff; margin-bottom: 25px; }
+        .modal-lang-btn {
+            width: 100%; margin-bottom: 12px; background: #111; color: #fff; border: 1px solid #333;
+            font-family: 'Warface'; padding: 14px; cursor: pointer; transition: .2s;
+        }
         .modal-lang-btn:hover { border-color: var(--yellow); color: var(--yellow); }
-
-        @media (max-width: 768px) {
-            header { 
-                height: auto;
-                padding: 15px 5%;
-                justify-content: flex-start;
-                align-items: flex-start;
-                min-height: 120px;
-            }
-            
-            .left-side { 
-                width: 100%;
-                min-width: 0;
-            }
-            
-            .logo-area { 
-                margin-left: 10px; 
-            }
-            
-            .logo {
-                font-size: 1.5rem;
-            }
-            
-            #insane-text {
-                font-size: 0.7rem;
-            }
-            
-            .header-right { 
-                width: 100%;
-                justify-content: flex-start;
-                margin-left: 0;
-                gap: 8px;
-                flex-wrap: wrap;
-                padding-top: 10px;
-            }
-            
-            #home-btn, #about-btn, #lang-display-btn { 
-                font-size: 0.7rem; 
-                padding: 6px 12px; 
-                flex: 0 0 auto;
-            }
-            
-            #settings-btn {
-                margin-left: auto;
-            }
-            
-            #settings-btn img {
-                height: 28px;
-                width: 28px;
-            }
-            
+        
+        body.ua-font #lang-display-btn, body.ua-font .header-right button, body.ua-font #insane-text,
+        body.ua-font .about-text, body.ua-font .modal-lang-btn, body.ua-font .lang-modal h2,
+        body.ua-font .settings-panel h3, body.ua-font .settings-item label,
+        body.ua-font .close-settings-ver { font-family: 'RussoOne', sans-serif !important; }
+        
+        @media (max-width: 700px) {
+            header { height: auto; padding: 15px 5%; flex-direction: column; }
+            .left-side { width: 100%; justify-content: center; }
+            .header-right { width: 100%; justify-content: center; margin-left: 0; padding-top: 12px; }
+            #settings-btn { position: absolute; top: 15px; right: 15px; margin-left: 0; }
+            .photo-card { width: 100%; }
             .about-text { font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
-
-    <div id="langModal" class="modal-overlay" onclick="if(event.target == this) toggleModal()">
-        <div class="lang-modal" onclick="event.stopPropagation()">
-            <h2 id="lang-modal-title">SELECT LANGUAGE</h2>
-            <button class="modal-lang-btn" onclick="changeLanguage('en')">ENGLISH</button>
-            <button class="modal-lang-btn" onclick="changeLanguage('ru')">РУССКИЙ</button>
-            <button class="modal-lang-btn" onclick="changeLanguage('ua')">УКРАЇНСЬКА</button>
-        </div>
+<div id="langModal" class="modal-overlay" onclick="if(event.target===this) closeModal()">
+    <div class="lang-modal" onclick="event.stopPropagation()">
+        <h2 id="lang-modal-title">SELECT LANGUAGE</h2>
+        <button class="modal-lang-btn" data-lang="en">ENGLISH</button>
+        <button class="modal-lang-btn" data-lang="ru">РУССКИЙ</button>
+        <button class="modal-lang-btn" data-lang="ua">УКРАЇНСЬКА</button>
     </div>
+</div>
+<div class="settings-panel" id="settingsPanel">
+    <div class="close-settings-ver" id="close-settings-text" onclick="toggleSettings()">ЗАКРЫТЬ</div>
+    <h3 id="settings-title" style="font-family:'Warface'; color:var(--yellow); margin-bottom:10px;">ПАРАМЕТРЫ</h3>
+    <div class="settings-item"><label id="sound-label">Звук кнопок</label><div class="toggle-switch" id="soundToggle"></div></div>
+    <div class="settings-item"><label id="theme-label">Светлая тема</label><div class="toggle-switch" id="themeToggle"></div></div>
+</div>
+<div id="site-content">
+    <header>
+        <div class="left-side">
+            <img src="skull.png" alt="Logo" class="header-pic" onerror="this.style.display='none'">
+            <div class="logo-area">
+                <div class="logo">Panzer-9</div>
+                <div id="insane-text">Every day we go insane</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <button id="home-btn">HOME</button>
+            <button id="about-btn">ABOUT US</button>
+            <button id="lang-display-btn">LANG</button>
+            <button id="settings-btn"><img src="gear.png" alt="Settings" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffcc00%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M19.14 12.94c.04-.3.06-.61.06-.94 0-.33-.02-.64-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.3-.06.61-.06.94 0 .33.02.64.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-2 0-3.6-1.6-3.6-3.6s1.6-3.6 3.6-3.6 3.6 1.6 3.6 3.6-1.6 3.6-3.6 3.6z%22/%3E%3C/svg%3E'"></button>
+        </div>
+    </header>
+    <main>
+        <div class="about-text" id="about-text"></div>
+        <section class="photo-section">
+            <h2 id="photos-title"></h2>
+            <div class="photo-inner">
+                <figure class="photo-card"><img src="NOkomynism.png" alt="NOkomynism" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffcc00%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23333%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23ffcc00%22 font-size=%2212%22%3ENOkomynism%3C/text%3E%3C/svg%3E'"></figure>
+                <figure class="photo-card"><img src="NOnazi.png" alt="NOnazi" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffcc00%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23333%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23ffcc00%22 font-size=%2212%22%3ENOnazi%3C/text%3E%3C/svg%3E'"></figure>
+            </div>
+        </section>
+    </main>
+</div>
+<footer id="footer-text">2013-2026 © Panzer-9.</footer>
 
-    <div class="settings-panel" id="settingsPanel">
-        <h3 style="font-family: 'Warface'; color: var(--yellow); text-transform: uppercase; margin-bottom: 10px;">ПАРАМЕТРЫ</h3>
+<script>
+    const T = {
+        en: {
+            homeBtn: "HOME", aboutBtn: "ABOUT US", langBtn: "LANG",
+            insane: "Every day we go insane", langTitle: "SELECT LANGUAGE",
+            settingsTitle: "SETTINGS", soundLabel: "Disable button sound", themeLabel: "Light theme",
+            closeSettings: "CLOSE", photosTitle: "",
+            footer: "2013-2026 © Panzer-9. All rights reserved",
+            text: `<p>We do not seek publicity. Panzer-9 is an autonomous digital node created for those who understand the difference between recording reality and supporting it. This resource functions like a 'black box' — a device that records the moment of catastrophe in order to extract data from it.</p><p>Here are stored source files that are too 'heavy' for the regular web. We collect artifacts of digital and biological entropy. This is not entertainment and not propaganda. This is visual evidence of how fragile human life is and how deeply a system can fall.</p><p>OUR POSITION: ABSOLUTE CONDEMNATION.</p><p>We strongly condemn any manifestations of violence, cruelty, and destructive behavior in the real world.</p><p>The posted materials serve only one purpose: to show the ugly, inside-out side of existence that the modern 'sterile' internet tries to ignore.</p><p>We do not create this content. We only transmit it as a warning about what is happening beyond the comfort zone.</p><p>Panzer-9 is a mirror that is not guilty of the horror of its reflection.</p><ul><li>If you are not ready to see the world without filters — immediately break the connection.</li><li>We are not responsible for your choice, but we are responsible for preserving the facts.</li></ul>`
+        },
+        ru: {
+            homeBtn: "ГЛАВНАЯ", aboutBtn: "О НАС", langBtn: "ЯЗЫК",
+            insane: "Каждый день мы сходим с ума", langTitle: "ВЫБЕРИТЕ ЯЗЫК",
+            settingsTitle: "ПАРАМЕТРЫ", soundLabel: "Отключить звук кнопок", themeLabel: "Светлая тема",
+            closeSettings: "ЗАКРЫТЬ", photosTitle: "",
+            footer: "2013-2026 © Panzer-9. Все права защищены",
+            text: `<p>Мы не ищем публичности. Panzer-9 — это автономный цифровой узел, созданный для тех, кто понимает разницу между фиксацией реальности и её поддержкой. Этот ресурс функционирует как «черный ящик» — устройство, которое записывает момент катастрофы, чтобы извлечь из неё данные.</p><p>Здесь хранятся исходные файлы, которые слишком «тяжелы» для обычного веба. Мы собираем артефакты цифровой и биологической энтропии. Это не развлечение и не пропаганда. Это визуальное свидетельство того, насколько хрупка человеческая жизнь и насколько глубоко может пасть система.</p><p>НАША ПОЗИЦИЯ: ПРЕДЕЛЬНОЕ ОСУЖДЕНИЕ.</p><p>Мы категорически осуждаем любые проявления насилия, жестокости и деструктивного поведения в реальном мире.</p><p>Размещенные материалы служат лишь одной цели: показать неприглядную, изнаночную сторону бытия, которую современный «стерильный» интернет пытается игнорировать.</p><p>Мы не создаем этот контент. Мы лишь транслируем его как предупреждение о том, что происходит за пределами зоны комфорта.</p><p>Panzer-9 — это зеркало, которое не виновато в том, что отражение ужасно.</p><ul><li>Если вы не готовы видеть мир без фильтров — немедленно разорвите соединение.</li><li>Мы не несем ответственности за ваш выбор, но мы несем ответственность за сохранение фактов.</li></ul>`
+        },
+        ua: {
+            homeBtn: "ГОЛОВНА", aboutBtn: "ПРО НАС", langBtn: "МОВА",
+            insane: "Кожен день ми божеволіємо", langTitle: "ОБЕРІТЬ МОВУ",
+            settingsTitle: "ПАРАМЕТРИ", soundLabel: "Вимкнути звук кнопок", themeLabel: "Світла тема",
+            closeSettings: "ЗАКРИТИ", photosTitle: "",
+            footer: "2013-2026 © Panzer-9. Всі права захищено",
+            text: `<p>Ми не шукаємо публічності. Panzer-9 — це автономний цифровий вузол, створений для тих, хто розуміє різницю між фіксацією реальності та її підтримкою. Цей ресурс функціонує як «чорна скринька» — пристрій, який записує момент катастрофи, щоб витягти з нього дані.</p><p>Тут зберігаються вихідні файли, які занадто «важкі» для звичайного вебу. Ми збираємо артефакти цифрової та біологічної ентропії. Це не розвага і не пропаганда. Це візуальні свідчення того, наскільки крихке людське життя і наскільки глибоко може впасти система.</p><p>НАША ПОЗИЦІЯ: ПРЕДЕЛЬНЕ ОСУДЖЕННЯ.</p><p>Ми категорично засуджуємо будь-які прояви насильства, жорстокості та деструктивної поведінки в реальному світі.</p><p>Розміщені матеріали служать лише одній меті: показати непривабливу, вивернуту сторону буття, яку сучасний «стерильний» інтернет намагається ігнорувати.</p><p>Ми не створюємо цей контент. Ми лише транслюємо його як попередження про те, що відбувається за межами зони комфорту.</p><p>Panzer-9 — це дзеркало, яке не винне в тому, що відображення жахливе.</p><ul><li>Якщо ви не готові бачити світ без фільтрів — негайно розірвіть з'єднання.</li><li>Ми не несемо відповідальності за ваш вибір, але ми несемо відповідальність за збереження фактів.</li></ul>`
+        }
+    };
+
+    let currentLang = 'en';
+    let soundEnabled = true;
+    let lightTheme = false;
+
+    function playButtonSound() {
+        if (!soundEnabled) return;
+        try {
+            const audio = new Audio('pep.mp3');
+            audio.volume = 0.4;
+            audio.play().catch(() => {});
+        } catch(e) {}
+    }
+
+    function applyLanguage(lang, save = true) {
+        currentLang = lang;
+        if (save) localStorage.setItem('panzer9_lang', lang);
         
-        <div class="settings-item">
-            <label>Отключить звук кнопок</label>
-            <div class="toggle-switch" id="button-sound-toggle" onclick="toggleButtonSound()"></div>
-        </div>
+        const t = T[lang];
 
-        <div class="settings-item">
-            <label>Светлая тема</label>
-            <div class="toggle-switch" id="theme-toggle" onclick="toggleTheme()"></div>
-        </div>
-    </div>
+        document.getElementById('home-btn').innerText = t.homeBtn;
+        document.getElementById('about-btn').innerText = t.aboutBtn;
+        document.getElementById('lang-display-btn').innerText = t.langBtn;
+        document.getElementById('insane-text').innerText = t.insane;
+        
+        document.getElementById('lang-modal-title').innerText = t.langTitle;
 
-    <div id="site-content">
-        <header>
-            <div class="left-side">
-                <img src="skull.png" alt="Logo" class="header-pic">
-                <div class="logo-area">
-                    <div class="logo">Panzer-9</div>
-                    <div id="insane-text">Every day we go insane</div>
-                </div>
-            </div>
-            <div class="header-right">
-                <button id="home-btn" onclick="navigateTo('index.html')">HOME</button>
-                <button id="about-btn" onclick="navigateTo('about.html')">ABOUT US</button>
-                <button id="lang-display-btn" onclick="toggleModal()">LANG</button>
-                <button id="settings-btn" onclick="toggleSettings()"><img src="gear.png" alt="Settings"></button>
-            </div>
-        </header>
-        <main>
-            <div class="about-text" id="about-text"></div>
-            <section class="photo-section">
-                <div class="photo-inner">
-                    <figure class="photo-card">
-                        <img src="NOkomynism.png" alt="NOkomynism">
-                        <figcaption>NOkomynism.png</figcaption>
-                    </figure>
-                    <figure class="photo-card">
-                        <img src="NOnazi.png" alt="NOnazi">
-                        <figcaption>NOnazi.png</figcaption>
-                    </figure>
-                </div>
-            </section>
-        </main>
-    </div>
+        document.getElementById('settings-title').innerText = t.settingsTitle;
+        document.getElementById('sound-label').innerText = t.soundLabel;
+        document.getElementById('theme-label').innerText = t.themeLabel;
+        document.getElementById('close-settings-text').innerText = t.closeSettings;
 
-    <footer id="footer-text">
-        2013-2026 © Panzer-9.
-    </footer>
+        document.getElementById('photos-title').innerHTML = t.photosTitle;
+        document.getElementById('footer-text').innerHTML = t.footer;
 
-    <script>
-        const translations = {
-            en: { 
-                btn: "LANG", 
-                aboutBtn: "ABOUT US", 
-                homeBtn: "HOME", 
-                insane: "Every day we go insane", 
-                langTitle: "SELECT LANGUAGE", 
-                aboutText: "<p>We do not seek publicity. Panzer-9 is an autonomous digital node created for those who understand the difference between recording reality and supporting it. This resource functions like a 'black box' — a device that records the moment of catastrophe in order to extract data from it.</p><p>Here are stored source files that are too 'heavy' for the regular web. We collect artifacts of digital and biological entropy. This is not entertainment and not propaganda. This is visual evidence of how fragile human life is and how deeply a system can fall.</p><p>OUR POSITION: ABSOLUTE CONDEMNATION.</p><p>We strongly condemn any manifestations of violence, cruelty, and destructive behavior in the real world.</p><p>The posted materials serve only one purpose: to show the ugly, inside-out side of existence that the modern 'sterile' internet tries to ignore.</p><p>We do not create this content. We only transmit it as a warning about what is happening beyond the comfort zone.</p><p>Panzer-9 is a mirror that is not guilty of the horror of its reflection.</p><ul><li>If you are not ready to see the world without filters — immediately break the connection.</li><li>We are not responsible for your choice, but we are responsible for preserving the facts.</li></ul>" 
-            },
-            ru: { 
-                btn: "ЯЗЫК", 
-                aboutBtn: "О НАС", 
-                homeBtn: "ГЛАВНАЯ", 
-                insane: "Каждый день мы сходим с ума", 
-                langTitle: "ВЫБЕРИТЕ ЯЗЫК", 
-                aboutText: "<p>Мы не ищем публичности. Panzer-9 — это автономный цифровой узел, созданный для тех, кто понимает разницу между фиксацией реальности и её поддержкой. Этот ресурс функционирует как «черный ящик» — устройство, которое записывает момент катастрофы, чтобы извлечь из неё данные.</p><p>Здесь хранятся исходные файлы, которые слишком «тяжелы» для обычного веба. Мы собираем артефакты цифровой и биологической энтропии. Это не развлечение и не пропаганда. Это визуальное свидетельство того, насколько хрупка человеческая жизнь и насколько глубоко может пасть система.</p><p>НАША ПОЗИЦИЯ: ПРЕДЕЛЬНОЕ ОСУЖДЕНИЕ.</p><p>Мы категорически осуждаем любые проявления насилия, жестокости и деструктивного поведения в реальном мире.</p><p>Размещенные материалы служат лишь одной цели: показать неприглядную, изнаночную сторону бытия, которую современный «стерильный» интернет пытается игнорировать.</p><p>Мы не создаем этот контент. Мы лишь транслируем его как предупреждение о том, что происходит за пределами зоны комфорта.</p><p>Panzer-9 — это зеркало, которое не виновато в том, что отражение ужасно.</p><ul><li>Если вы не готовы видеть мир без фильтров — немедленно разорвите соединение.</li><li>Мы не несем ответственности за ваш выбор, но мы несем ответственность за сохранение фактов.</li></ul>" 
-            },
-            ua: { 
-                btn: "МОВА", 
-                aboutBtn: "ПРО НАС", 
-                homeBtn: "ГОЛОВНА", 
-                insane: "Кожен день ми божеволіємо", 
-                langTitle: "ОБЕРІТЬ МОВУ", 
-                aboutText: "<p>Ми не шукаємо публічності. Panzer-9 — це автономний цифровий вузол, створений для тих, хто розуміє різницю між фіксацією реальності та її підтримкою. Цей ресурс функціонує як «чорна скринька» — пристрій, який записує момент катастрофи, щоб витягти з нього дані.</p><p>Тут зберігаються вихідні файли, які занадто «важкі» для звичайного вебу. Ми збираємо артефакти цифрової та біологічної ентропії. Це не розвага і не пропаганда. Це візуальні свідчення того, наскільки крихке людське життя і наскільки глибоко може впасти система.</p><p>НАША ПОЗИЦІЯ: ПРЕДЕЛЬНЕ ОСУДЖЕННЯ.</p><p>Ми категорично засуджуємо будь-які прояви насильства, жорстокості та деструктивної поведінки в реальному світі.</p><p>Розміщені матеріали служать лише одній меті: показати непривабливу, вивернуту сторону буття, яку сучасний «стерильний» інтернет намагається ігнорувати.</p><p>Ми не створюємо цей контент. Ми лише транслюємо його як попередження про те, що відбувається за межами зони комфорту.</p><p>Panzer-9 — це дзеркало, яке не винне в тому, що відображення жахливе.</p><ul><li>Якщо ви не готові бачити світ без фільтрів — негайно розірвіть з'єднання.</li><li>Ми не несемо відповідальності за ваш вибір, але ми несемо відповідальність за збереження фактів.</li></ul>" 
-            }
-        };
+        document.getElementById('about-text').innerHTML = t.text;
 
-        function toggleModal() { 
-            playButtonSound();
-            document.getElementById('langModal').classList.toggle('active'); 
+        document.title = `Panzer-9 — ${t.aboutBtn}`;
+ 
+        if (lang === 'ua') document.body.classList.add('ua-font');
+        else document.body.classList.remove('ua-font');
+    }
+
+    function changeLanguage(lang) {
+        playButtonSound();
+        applyLanguage(lang, true);
+        closeModal();
+    }
+
+    function openModal() { playButtonSound(); document.getElementById('langModal').classList.add('active'); }
+    function closeModal() { document.getElementById('langModal').classList.remove('active'); }
+    function toggleModal() { 
+        playButtonSound(); 
+        const modal = document.getElementById('langModal');
+        if (modal.classList.contains('active')) closeModal();
+        else openModal();
+    }
+    
+    function toggleSettings() { 
+        playButtonSound(); 
+        document.getElementById('settingsPanel').classList.toggle('open'); 
+    }
+    
+    function toggleTheme() {
+        playButtonSound();
+        lightTheme = !lightTheme;
+        document.body.classList.toggle('light', lightTheme);
+        localStorage.setItem('panzer9_light_theme', lightTheme ? 'true' : 'false');
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) themeToggle.classList.toggle('active', lightTheme);
+    }
+    
+    function toggleSound() {
+        playButtonSound();
+        soundEnabled = !soundEnabled;
+        localStorage.setItem('panzer9_button_sound', soundEnabled ? 'true' : 'false');
+        const soundToggle = document.getElementById('soundToggle');
+        if (soundToggle) soundToggle.classList.toggle('active', !soundEnabled);
+    }
+    
+    function navigateTo(page) {
+        playButtonSound();
+        setTimeout(() => { window.location.href = page; }, 60);
+    }
+
+    document.addEventListener('click', (e) => {
+        const panel = document.getElementById('settingsPanel');
+        const settingsBtn = document.getElementById('settings-btn');
+        if (panel?.classList.contains('open') && !panel.contains(e.target) && !settingsBtn?.contains(e.target)) {
+            panel.classList.remove('open');
         }
+    });
 
-        function changeLanguage(lang) {
-            playButtonSound();
-            const data = translations[lang];
-            document.getElementById('lang-display-btn').innerText = data.btn;
-            document.getElementById('about-btn').innerText = data.aboutBtn;
-            document.getElementById('home-btn').innerText = data.homeBtn;
-            document.getElementById('insane-text').innerText = data.insane;
-            document.getElementById('lang-modal-title').innerText = data.langTitle;
-            document.getElementById('about-text').innerHTML = data.aboutText;
-            
-            if (lang === 'ua') {
-                document.body.classList.add('ua-font');
-            } else {
-                document.body.classList.remove('ua-font');
-            }
-            
-            localStorage.setItem('panzer9_lang', lang);
-            toggleModal();
-        }
+    window.onload = () => {
+        const savedLang = localStorage.getItem('panzer9_lang') || 'en';
+        const savedTheme = localStorage.getItem('panzer9_light_theme') === 'true';
+        const savedSound = localStorage.getItem('panzer9_button_sound') !== 'false';
+        
+        currentLang = savedLang;
+        soundEnabled = savedSound;
+        lightTheme = savedTheme;
+        
+        applyLanguage(currentLang, false);
+        
+        if (lightTheme) document.body.classList.add('light');
+        else document.body.classList.remove('light');
+        
+        const themeToggle = document.getElementById('themeToggle');
+        const soundToggle = document.getElementById('soundToggle');
+        if (themeToggle) themeToggle.classList.toggle('active', lightTheme);
+        if (soundToggle) soundToggle.classList.toggle('active', !soundEnabled);
 
-        function navigateTo(page) {
-            playButtonSound();
-            setTimeout(() => { window.location.href = page; }, 100);
-        }
+        document.getElementById('home-btn').onclick = () => navigateTo('index.html');
+        document.getElementById('about-btn').onclick = () => navigateTo('about.html');
+        document.getElementById('lang-display-btn').onclick = toggleModal;
+        document.getElementById('settings-btn').onclick = toggleSettings;
+        document.getElementById('themeToggle').onclick = toggleTheme;
+        document.getElementById('soundToggle').onclick = toggleSound;
 
-        function toggleSettings() { 
-            playButtonSound();
-            document.getElementById('settingsPanel').classList.toggle('open'); 
-        }
-
-        document.addEventListener('click', (e) => {
-            const panel = document.getElementById('settingsPanel');
-            const btn = document.getElementById('settings-btn');
-            if (panel.classList.contains('open') && !panel.contains(e.target) && !btn.contains(e.target)) {
-                panel.classList.remove('open');
-            }
+        document.querySelectorAll('.modal-lang-btn').forEach(btn => {
+            btn.onclick = () => changeLanguage(btn.getAttribute('data-lang'));
         });
 
-        function playButtonSound() {
-            const isSoundEnabled = JSON.parse(localStorage.getItem('panzer9_button_sound') || 'true');
-            if (isSoundEnabled) {
-                const audio = new Audio('pep.mp3');
-                audio.volume = 0.5;
-                audio.play().catch(() => {});
-            }
-        }
-
-        function toggleButtonSound() {
-            const currentState = JSON.parse(localStorage.getItem('panzer9_button_sound') || 'true');
-            const newState = !currentState;
-            localStorage.setItem('panzer9_button_sound', newState);
-            document.getElementById('button-sound-toggle').classList.toggle('active', !newState);
-            if (newState) playButtonSound();
-        }
-
-        function toggleTheme() {
-            playButtonSound();
-            const currentState = JSON.parse(localStorage.getItem('panzer9_light_theme') || 'false');
-            const newState = !currentState;
-            localStorage.setItem('panzer9_light_theme', newState);
-            document.getElementById('theme-toggle').classList.toggle('active', newState);
-            document.body.classList.toggle('light-theme', newState);
-        }
-
-        window.onload = () => {
-            const storedLang = localStorage.getItem('panzer9_lang') || 'en';
-            const data = translations[storedLang];
-            
-            document.getElementById('lang-display-btn').innerText = data.btn;
-            document.getElementById('about-btn').innerText = data.aboutBtn;
-            document.getElementById('home-btn').innerText = data.homeBtn;
-            document.getElementById('insane-text').innerText = data.insane;
-            document.getElementById('lang-modal-title').innerText = data.langTitle;
-            document.getElementById('about-text').innerHTML = data.aboutText;
-            
-            if (storedLang === 'ua') {
-                document.body.classList.add('ua-font');
-            } else {
-                document.body.classList.remove('ua-font');
-            }
-            
-            const isLightTheme = JSON.parse(localStorage.getItem('panzer9_light_theme') || 'false');
-            if (isLightTheme) {
-                document.body.classList.add('light-theme');
-                document.getElementById('theme-toggle').classList.add('active');
-            } else {
-                document.body.classList.remove('light-theme');
-                document.getElementById('theme-toggle').classList.remove('active');
-            }
-            
-            const isButtonSoundEnabled = JSON.parse(localStorage.getItem('panzer9_button_sound') || 'true');
-            if (!isButtonSoundEnabled) {
-                document.getElementById('button-sound-toggle').classList.add('active');
-            } else {
-                document.getElementById('button-sound-toggle').classList.remove('active');
-            }
-        };
-    </script>
+        document.getElementById('langModal').onclick = (e) => { if (e.target === e.currentTarget) closeModal(); };
+    };
+</script>
 </body>
 </html>
