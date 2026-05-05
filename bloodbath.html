@@ -40,7 +40,6 @@
         .ua-font .close-settings-ver {
             font-family: 'RussoOne-Regular', sans-serif !important;
             white-space: nowrap !important;
-            min-width: auto !important;
         }
 
         .ua-font .header-right {
@@ -317,11 +316,16 @@
             try { const audio = new Audio('pep.mp3'); audio.volume = 0.4; audio.play().catch(e=>{}); } catch(e) {}
         }
 
+        // EXACT file list: 14.mp4 to 20.mp4, then 23.mp4, then images 21.jpg, 22.jpg
         function buildMediaList() {
             const items = [];
-            for (let i = 23; i <= 30; i++) {
+            // Videos: 14,15,16,17,18,19,20
+            for (let i = 14; i <= 20; i++) {
                 items.push({ type: 'video', src: `${i}.mp4`, labelNum: i });
             }
+            // Video 23.mp4
+            items.push({ type: 'video', src: `23.mp4`, labelNum: 23 });
+            // Images without overlay (clean)
             items.push({ type: 'image', src: '21.jpg', labelNum: 21 });
             items.push({ type: 'image', src: '22.jpg', labelNum: 22 });
             return items;
@@ -377,6 +381,7 @@
                 const innerDiv = document.createElement('div');
                 innerDiv.className = item.type === 'video' ? 'video-banner' : 'image-banner';
                 if (item.type === 'image') {
+                    // Clean image without any text overlay on top - only the photo itself
                     const img = document.createElement('img');
                     img.src = item.src;
                     img.alt = `archive ${item.labelNum}`;
@@ -384,6 +389,7 @@
                     img.style.height = '100%';
                     img.style.objectFit = 'cover';
                     innerDiv.appendChild(img);
+                    // small badge in corner (minimal)
                     const badge = document.createElement('div');
                     badge.style.position = 'absolute';
                     badge.style.bottom = '10px';
