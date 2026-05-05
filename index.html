@@ -17,6 +17,11 @@
             src: url('wolfenstein.ttf') format('truetype'); 
             font-display: swap;
         }
+        @font-face { 
+            font-family: 'RussoOne-Regular'; 
+            src: url('RussoOne-Regular.ttf') format('truetype'); 
+            font-display: swap;
+        }
 
         :root {
             --yellow: #ffcc00; 
@@ -24,6 +29,16 @@
             --white: #ffffff; 
             --red: #ff0000;
             --danger-stripe: repeating-linear-gradient(45deg, #ffcc00, #ffcc00 20px, #000 20px, #000 40px);
+        }
+
+        .ua-font #lang-display-btn,
+        .ua-font #about-btn,
+        .ua-font #home-btn,
+        .ua-font #insane-text,
+        .ua-font .banner-subtext,
+        .ua-font .modal-lang-btn,
+        .ua-font .lang-modal h2 {
+            font-family: 'RussoOne-Regular', sans-serif !important;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,6 +52,7 @@
             position: relative;
             display: flex;
             flex-direction: column;
+            transition: background 0.3s, color 0.3s;
         }
 
         header { background: #000; display: flex; justify-content: space-between; align-items: center; padding: 0 5%; position: sticky; top: 0; z-index: 1000; border-bottom: 5px solid var(--yellow); height: 130px; }
@@ -47,90 +63,372 @@
         .header-pic { height: 75px; width: auto; object-fit: contain; }
         
         .logo-area { display: flex; flex-direction: column; margin-left: 15px; }
-        .logo { font-family: 'Wolfenstein', serif !important; color: #ffffff !important; font-size: clamp(1.8rem, 5vw, 3.5rem); text-transform: uppercase; line-height: 1; letter-spacing: 2px; }
+        .logo { font-family: 'Wolfenstein', serif !important; color: #ffffff; font-size: clamp(1.8rem, 5vw, 3.5rem); text-transform: uppercase; line-height: 1; letter-spacing: 2px; }
         
-        #insane-text { 
-            font-family: 'Warface', sans-serif; 
-            color: var(--red); 
-            font-size: 0.9rem; 
-            margin-top: 5px; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        #insane-text { font-family: 'Warface', sans-serif; color: var(--red); font-size: 0.9rem; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
 
-        .header-right { display: flex; align-items: center; }
+        .header-right { display: flex; align-items: center; gap: 15px; }
 
-        #lang-display-btn { 
+        #home-btn, #about-btn, #lang-display-btn { 
             font-family: 'Warface', sans-serif !important; 
-            background: none; 
-            border: 2px solid var(--yellow); 
-            color: var(--yellow); 
             padding: 10px 25px; 
             font-size: 0.9rem; 
             white-space: nowrap; 
-            transition: 0.3s; 
-            cursor: pointer; 
+            cursor: pointer;
+            transition: 0.3s;
         }
-        #lang-display-btn:hover { background: var(--yellow); color: #000; }
+        #home-btn { background: var(--yellow); border: 2px solid var(--yellow); color: #000; }
+        #home-btn:hover { background: none; color: var(--yellow); }
+        #about-btn, #lang-display-btn { background: none; border: 2px solid var(--yellow); color: var(--yellow); }
+        #about-btn:hover, #lang-display-btn:hover { background: var(--yellow); color: #000; }
+
+        #settings-btn { background: none; border: none; cursor: pointer; padding: 5px; display: flex; align-items: center; }
+        #settings-btn img { height: 35px; width: 35px; transition: 0.3s; }
+
+        .settings-panel { 
+            position: fixed; 
+            right: -350px; 
+            top: 0; 
+            width: 320px; 
+            height: 100vh; 
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); 
+            border-left: 3px solid var(--yellow); 
+            z-index: 8000; 
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+        }
+        .settings-panel.open { right: 0; }
+
+        .close-settings-ver {
+            position: absolute;
+            left: -35px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--yellow);
+            color: #000;
+            writing-mode: vertical-rl;
+            padding: 15px 8px;
+            font-family: 'Warface';
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: 1px solid #000;
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+            text-transform: uppercase;
+        }
+
+        .settings-item { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 12px; 
+            background: rgba(0, 0, 0, 0.4); 
+            border: 1px solid #444; 
+        }
+        .settings-item label { font-family: 'Warface', sans-serif; font-size: 0.85rem; color: #fff; cursor: pointer; }
+
+        .toggle-switch { width: 50px; height: 26px; background: #555; border-radius: 13px; position: relative; cursor: pointer; transition: 0.3s; border: 1px solid #777; }
+        .toggle-switch.active { background: var(--yellow); }
+        .toggle-switch::after { content: ''; position: absolute; width: 20px; height: 20px; background: #000; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
+        .toggle-switch.active::after { left: 26px; }
+
+        body.light-theme { background: var(--white); color: var(--black); }
+        body.light-theme .logo, 
+        body.light-theme .settings-item label,
+        body.light-theme .settings-panel h3,
+        body.light-theme .lang-modal h2 { color: var(--black) !important; }
+        
+        body.light-theme .banner-text { color: var(--white) !important; }
+        
+        body.light-theme header { background: #f5f5f5; border-bottom-color: #333; }
+        body.light-theme .settings-panel { background: #ffffff; border-left-color: #000; }
+        body.light-theme .settings-item { background: #f0f0f0; border-color: #ccc; }
+        body.light-theme footer { background: #f5f5f5; color: #333; }
 
         #site-content { flex: 1 0 auto; }
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 40px 8%; }
-        .video-banner { aspect-ratio: 16/9; background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('header-photo.jpg'); background-size: cover; border: 1px solid #333; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.3s; position: relative; overflow: hidden; opacity: 0; transform: translateY(20px); text-align: center; padding: 15px; cursor: pointer; }
-        .video-banner.show { opacity: 1; transform: translateY(0); }
-        .video-banner:hover { border-color: var(--yellow); transform: scale(1.03); filter: brightness(1.2); }
-        
-        .banner-text { position: relative; z-index: 2; color: var(--white); font-family: 'Warface', sans-serif; font-size: 2.2rem; margin-bottom: 5px; }
-        .banner-subtext { position: relative; z-index: 2; color: var(--yellow); font-size: 1.1rem; font-family: 'Warface'; text-transform: uppercase; margin-bottom: 8px; }
-
-        footer {
-            padding: 40px 20px;
-            text-align: center;
-            border-top: 2px solid #222;
-            color: #555;
-            font-family: 'Warface', sans-serif;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            background: #000;
+        .video-banner { 
+            aspect-ratio: 16/9; background: #111; border: 1px solid #333; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            transition: 0.3s; position: relative; overflow: hidden; opacity: 0; transform: translateY(20px); 
+            text-align: center; padding: 15px; cursor: pointer; 
         }
-
-        .video-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; justify-content: center; align-items: center; z-index: 6000; padding: 20px; }
-        .video-modal.active { display: flex; }
-        .video-content { border: 2px solid var(--yellow); background: #000; position: relative; display: flex; flex-direction: column; width: 100%; max-height: 90vh; }
-        .video-content.horizontal { max-width: 950px; }
-        .video-content.vertical { height: 85vh; width: auto; }
-        .video-content video { height: 100%; width: 100%; display: block; object-fit: contain; }
-        .close-video { position: absolute; top: 0; right: 0; background: var(--yellow); color: #000; font-family: 'Warface'; cursor: pointer; font-size: 0.8rem; padding: 8px 12px; z-index: 6100; border-left: 2px solid var(--black); border-bottom: 2px solid var(--black); }
+        .video-banner.show { opacity: 1; transform: translateY(0); }
+        .video-banner:hover { border-color: var(--yellow); transform: scale(1.03); }
         
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: flex; justify-content: center; align-items: center; z-index: 9999; visibility: hidden; opacity: 0; transition: 0.3s; padding: 20px; }
-        .modal-overlay.active { visibility: visible; opacity: 1; }
-        .lang-modal { padding: 40px; border: 4px solid var(--yellow); text-align: center; background: #050505; width: 100%; max-width: 500px; }
-        .modal-lang-btn { width: 100%; margin-bottom: 15px; background: #111; color: white; border: 1px solid #333; font-family: 'Warface'; padding: 15px; cursor: pointer; transition: 0.2s; }
+        .banner-text { color: var(--white); font-family: 'Warface', sans-serif; font-size: 2.2rem; }
+        .banner-subtext { color: var(--yellow); font-size: 1.1rem; font-family: 'Warface'; text-transform: uppercase; }
+
+        footer { padding: 40px 20px; text-align: center; border-top: 2px solid #222; color: #555; font-family: 'Warface'; font-size: 1.2rem; background: #000; }
+
+        .video-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; justify-content: center; align-items: center; z-index: 9000; padding: 20px; }
+        .video-modal.active { display: flex; }
+        .video-content { border: 2px solid var(--yellow); background: #000; position: relative; width: 100%; max-width: 900px; }
+        video { width: 100%; display: block; max-height: 85vh; }
+        .close-video { position: absolute; top: -35px; right: 0; color: var(--yellow); font-family: 'Warface'; cursor: pointer; font-size: 1rem; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; display: none; justify-content: center; align-items: center; }
+        .modal-overlay.active { display: flex; }
+        .lang-modal { padding: 40px; border: 4px solid var(--yellow); text-align: center; background: #050505; width: 100%; max-width: 450px; }
+        .modal-lang-btn { width: 100%; margin-bottom: 15px; background: #111; color: white; border: 1px solid #333; font-family: 'Warface'; padding: 15px; cursor: pointer; }
         .modal-lang-btn:hover { border-color: var(--yellow); color: var(--yellow); }
 
+        .disclaimer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .disclaimer-overlay.active {
+            display: flex;
+        }
+
+        .disclaimer-content {
+            background: #050505;
+            border: 4px solid var(--red);
+            padding: 40px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .disclaimer-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--danger-stripe);
+            background-size: 56.5px 100%;
+            animation: moveStripes 1.2s linear infinite;
+        }
+
+        .disclaimer-title {
+            color: var(--red);
+            font-family: 'Warface', sans-serif;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 20px;
+            letter-spacing: 2px;
+        }
+
+        .disclaimer-text {
+            color: var(--red);
+            font-family: 'Warface', sans-serif;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .disclaimer-text ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .disclaimer-text li {
+            margin-bottom: 15px;
+            list-style: disc;
+        }
+
+        .disclaimer-checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            padding: 15px;
+            background: rgba(255,0,0,0.1);
+            border: 2px solid var(--red);
+        }
+
+        .disclaimer-checkbox {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: var(--red);
+        }
+
+        .disclaimer-checkbox-label {
+            color: var(--red);
+            font-family: 'Warface', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .disclaimer-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        .disclaimer-btn {
+            font-family: 'Warface', sans-serif;
+            font-size: 1rem;
+            padding: 15px 35px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            border: 2px solid var(--red);
+        }
+
+        .disclaimer-btn.enter {
+            background: var(--red);
+            color: #000;
+        }
+
+        .disclaimer-btn.enter:hover {
+            background: none;
+            color: var(--red);
+        }
+
+        .disclaimer-btn.enter:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .disclaimer-btn.exit {
+            background: none;
+            color: var(--red);
+        }
+
+        .disclaimer-btn.exit:hover {
+            background: var(--red);
+            color: #000;
+        }
+
+        .disclaimer-warning {
+            color: var(--red);
+            font-family: 'Warface', sans-serif;
+            font-size: 1.3rem;
+            text-align: center;
+            text-transform: uppercase;
+            margin-top: 30px;
+            letter-spacing: 1px;
+        }
+
+        .disclaimer-lang-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .disclaimer-lang-btn {
+            background: #111;
+            color: var(--yellow);
+            border: 2px solid var(--yellow);
+            padding: 8px 15px;
+            font-family: 'Warface', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .disclaimer-lang-btn.active {
+            background: var(--yellow);
+            color: #000;
+        }
+
+        .disclaimer-lang-btn:hover {
+            border-color: var(--red);
+        }
+
         @media (max-width: 768px) {
-            header { height: auto; padding: 25px 5%; flex-direction: column; gap: 15px; text-align: center; }
-            .left-side { flex-direction: column; }
-            .logo-area { margin-left: 0; margin-top: 10px; }
-            .header-right { width: 100%; justify-content: center; }
-            #lang-display-btn { width: 80%; max-width: 300px; }
+            header { height: auto; padding: 25px 5%; flex-direction: column; }
+            #settings-btn { position: absolute; top: 20px; right: 20px; }
+            .header-right { width: 100%; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+            #home-btn, #about-btn, #lang-display-btn { padding: 8px 15px; font-size: 0.75rem; }
+            
+            .disclaimer-content {
+                padding: 30px 20px;
+                max-height: 90vh;
+            }
+            .disclaimer-title {
+                font-size: 1.8rem;
+            }
+            .disclaimer-text {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
 
+    <div id="disclaimerOverlay" class="disclaimer-overlay">
+        <div class="disclaimer-content">
+            <div class="disclaimer-lang-selector">
+                <button class="disclaimer-lang-btn active" onclick="setDisclaimerLang('en')">ENGLISH</button>
+                <button class="disclaimer-lang-btn" onclick="setDisclaimerLang('ru')">РУСС��ИЙ</button>
+                <button class="disclaimer-lang-btn" onclick="setDisclaimerLang('ua')">UKRAINIAN</button>
+            </div>
+
+            <div class="disclaimer-title" id="disclaimer-title">WARNING</div>
+
+            <div class="disclaimer-text" id="disclaimer-content"></div>
+
+            <div class="disclaimer-checkbox-wrapper">
+                <input type="checkbox" id="ageConfirm" class="disclaimer-checkbox" onchange="updateEnterBtn()">
+                <label for="ageConfirm" class="disclaimer-checkbox-label" id="age-confirm-label">I confirm that I am 18 years old</label>
+            </div>
+
+            <div class="disclaimer-warning" id="disclaimer-warning">YOU ARE LEAVING THE SAFE ZONE. CONTINUE?</div>
+
+            <div class="disclaimer-buttons">
+                <button class="disclaimer-btn enter" id="disclaimerEnterBtn" onclick="enterSite()" disabled>ENTER</button>
+                <button class="disclaimer-btn exit" onclick="exitToGoogle()">EXIT</button>
+            </div>
+        </div>
+    </div>
+
     <div id="videoModal" class="video-modal" onclick="closeVideo()">
-        <div class="video-content" id="videoContent" onclick="event.stopPropagation()">
-            <div class="close-video" onclick="closeVideo()">X CLOSE</div>
+        <div class="video-content" onclick="event.stopPropagation()">
+            <div class="close-video" onclick="closeVideo()">[ X CLOSE ]</div>
             <video id="mainPlayer" controls playsinline></video>
         </div>
     </div>
 
-    <div id="langModal" class="modal-overlay" onclick="if(event.target == this) toggleModal()">
-        <div class="lang-modal">
-            <h2 style="font-family: 'Warface'; color: white; margin-bottom: 20px;">SELECT LANGUAGE</h2>
+    <div id="langModal" class="modal-overlay" onclick="toggleModal()">
+        <div class="lang-modal" onclick="event.stopPropagation()">
+            <h2 id="lang-modal-title" style="color: white; margin-bottom: 20px; font-family: 'Warface';">SELECT LANGUAGE</h2>
             <button class="modal-lang-btn" onclick="changeLanguage('en')">ENGLISH</button>
             <button class="modal-lang-btn" onclick="changeLanguage('ru')">РУССКИЙ</button>
             <button class="modal-lang-btn" onclick="changeLanguage('ua')">УКРАЇНСЬКА</button>
+        </div>
+    </div>
+
+    <div class="settings-panel" id="settingsPanel">
+        <div class="close-settings-ver" onclick="toggleSettings()">ЗАКРЫТЬ</div>
+        <h3 style="font-family: 'Warface'; color: var(--yellow); text-transform: uppercase;">Параметры</h3>
+        
+        <div class="settings-item">
+            <label>Отключить звук кнопок</label>
+            <div class="toggle-switch" id="button-sound-toggle" onclick="toggleButtonSound()"></div>
+        </div>
+
+        <div class="settings-item">
+            <label>Светлая тема</label>
+            <div class="toggle-switch" id="theme-toggle" onclick="toggleTheme()"></div>
         </div>
     </div>
 
@@ -144,43 +442,120 @@
                 </div>
             </div>
             <div class="header-right">
+                <button id="home-btn" onclick="location.reload()">HOME</button>
+                <button id="about-btn" onclick="navigateTo('about.html')">ABOUT US</button>
                 <button id="lang-display-btn" onclick="toggleModal()">LANG</button>
+                <button id="settings-btn" onclick="toggleSettings()"><img src="gear.png" alt="Settings"></button>
             </div>
         </header>
+
         <main class="video-grid" id="main-grid"></main>
     </div>
 
-    <footer id="footer-text">
-        2013-2015 © Panzer-9.
-    </footer>
+    <footer id="footer-text">2013-2026 © Panzer-9.</footer>
 
     <script>
-        const translations = {
-            en: { btn: "LANG", subtext: "VIDEO", cat2: "STICKERS", insane: "Every day we go insane"},
-            ru: { btn: "ЯЗЫК", subtext: "ВИДЕО", cat2: "СТИКЕРЫ", insane: "Каждый день мы сходим с ума"},
-            ua: { btn: "МОВА", subtext: "ВІДЕО", cat2: "СТІКЕРИ", insane: "Кожен день ми божеволіємо" }
+        const disclaimerTexts = {
+            en: {
+                title: "WARNING",
+                content: `<ul>
+                    <li>Materials on this resource contain scenes of extreme violence, violence and biological decay. This content can cause psychological harm.</li>
+                    <li>The project administration categorically condemns any form of real violence. We do not promote, support or call for the actions shown in the video materials.</li>
+                    <li>The resource is a parody-research archive of the "dark web". All content is presented solely as an example of digital entropy and shock aesthetics.</li>
+                </ul>`,
+                warning: "YOU ARE LEAVING THE SAFE ZONE. CONTINUE?",
+                ageConfirm: "I confirm that I am 18 years old",
+                enter: "ENTER",
+                exit: "EXIT"
+            },
+            ru: {
+                title: "ПРЕДУПРЕЖДЕНИЕ",
+                content: `<ul>
+                    <li>Материалы на данном ресурсе содержат сцены предельной жестокости, насилия и биологического распада. Данный контент может нанести вред вашей психике.</li>
+                    <li>Администрация проекта категорически осуждает любые формы реального насилия. Мы не пропагандируем, не поддерживаем и не призываем к действиям, показанным в видеоматериалах.</li>
+                    <li>Ресурс является пародийно-исследовательским архивом «теневого интернета». Весь контент представлен исключительно как пример цифровой энтропии и эстетики шока.</li>
+                </ul>`,
+                warning: "ВЫ ПОКИДАЕТЕ БЕЗОПАСНОЮ ЗОНУ. ПРОДОЛЖИТЬ?",
+                ageConfirm: "Я подтверждаю, что мне исполнилось 18 лет",
+                enter: "ВХОД",
+                exit: "ВЫХОД"
+            },
+            ua: {
+                title: "ПОПЕРЕДЖЕННЯ",
+                content: `<ul>
+                    <li>Матеріали на цьому ресурсі містять сцени екстремального насильства, жорстокості та біологічного розпаду. Цей контент може завдати шкоди вашій психіці.</li>
+                    <li>Адміністрація проекту категорично засуджує будь-які форми реального насильства. Ми не пропагуємо, не підтримуємо та не закликаємо до дій, показаних у відеоматеріалах.</li>
+                    <li>Ресурс є пародійно-дослідницьким архівом «темного інтернету». Весь контент представлено виключно як приклад цифрової ентропії та естетики шоку.</li>
+                </ul>`,
+                warning: "ВИ ЗАЛИШАЄТЕ БЕЗПЕЧНУ ��ОНУ. ПРОДОВЖИТИ?",
+                ageConfirm: "Я підтверджую, що мені виповнилося 18 років",
+                enter: "ВХІД",
+                exit: "ВИХІД"
+            }
         };
+
+        const translations = {
+            en: { btn: "LANG", subtext: "VIDEO", cat2: "STICKERS", insane: "Every day we go insane", aboutBtn: "ABOUT US", homeBtn: "HOME", langTitle: "SELECT LANGUAGE" },
+            ru: { btn: "ЯЗЫК", subtext: "ВИДЕО", cat2: "СТИКЕРЫ", insane: "Каждый день мы сходим с ума", aboutBtn: "О НАС", homeBtn: "ГЛАВНАЯ", langTitle: "ВЫБЕРИТЕ ЯЗЫК" },
+            ua: { btn: "МОВА", subtext: "ВІДЕО", cat2: "СТІКЕРИ", insane: "Кожен день ми божеволіємо", aboutBtn: "ПРО НАС", homeBtn: "ГОЛОВНА", langTitle: "ОБЕРІТЬ МОВУ" }
+        };
+
+        let currentDisclaimerLang = 'en';
+
+        function setDisclaimerLang(lang) {
+            currentDisclaimerLang = lang;
+            const data = disclaimerTexts[lang];
+            document.getElementById('disclaimer-title').textContent = data.title;
+            document.getElementById('disclaimer-content').innerHTML = data.content;
+            document.getElementById('disclaimer-warning').textContent = data.warning;
+            document.getElementById('age-confirm-label').textContent = data.ageConfirm;
+            document.getElementById('disclaimerEnterBtn').textContent = data.enter;
+            document.querySelectorAll('.disclaimer-lang-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', ['en', 'ru', 'ua'][idx] === lang);
+            });
+        }
+
+        function updateEnterBtn() {
+            const isChecked = document.getElementById('ageConfirm').checked;
+            document.getElementById('disclaimerEnterBtn').disabled = !isChecked;
+        }
+
+        function enterSite() {
+            playButtonSound();
+            localStorage.setItem('panzer9_disclaimer_accepted', 'true');
+            document.getElementById('disclaimerOverlay').classList.remove('active');
+            
+            const savedLang = localStorage.getItem('panzer9_lang') || 'en';
+            applyLanguage(savedLang);
+        }
+
+        function exitToGoogle() {
+            playButtonSound();
+            window.location.href = 'https://www.google.com';
+        }
+
+        function navigateTo(page) {
+            playButtonSound();
+            setTimeout(() => { window.location.href = page; }, 100);
+        }
 
         function renderBanners(lang) {
             const grid = document.getElementById('main-grid');
             grid.innerHTML = '';
-            
+
             for (let i = 1; i <= 9; i++) {
                 const name = i === 1 ? 'sticker' : `sticker${i}`;
-                createBanner(grid, `${name}.webm`, lang, translations[lang].cat2, i);
+                createBanner(grid, `${name}.webm`, translations[lang].cat2, i);
             }
-            for (let i = 1; i <= 9; i++) {
-                createBanner(grid, `${i}.mp4`, lang, translations[lang].subtext, i + 9);
-            }
-            for (let i = 10; i <= 13; i++) {
-                createBanner(grid, `${i}.mp4`, lang, translations[lang].subtext, i + 9);
+            for (let i = 1; i <= 13; i++) {
+                createBanner(grid, `${i}.mp4`, translations[lang].subtext, i + 9);
             }
 
             const banners = document.querySelectorAll('.video-banner');
-            banners.forEach((b, index) => { setTimeout(() => b.classList.add('show'), index * 60); });
+            banners.forEach((b, idx) => setTimeout(() => b.classList.add('show'), idx * 50));
         }
 
-        function createBanner(container, src, lang, label, num) {
+        function createBanner(container, src, label, num) {
             const banner = document.createElement('div');
             banner.className = 'video-banner';
             banner.onclick = () => openVideo(src);
@@ -193,39 +568,110 @@
 
         function openVideo(src) {
             const modal = document.getElementById('videoModal');
-            const content = document.getElementById('videoContent');
             const player = document.getElementById('mainPlayer');
             player.src = src;
-            content.classList.remove('vertical', 'horizontal');
-            player.onloadedmetadata = function() {
-                content.classList.add(this.videoHeight > this.videoWidth ? 'vertical' : 'horizontal');
-            };
             modal.classList.add('active');
             player.play();
         }
 
         function closeVideo() {
-            document.getElementById('videoModal').classList.remove('active');
+            const modal = document.getElementById('videoModal');
             const player = document.getElementById('mainPlayer');
-            player.pause(); 
+            modal.classList.remove('active');
+            player.pause();
             player.src = "";
         }
 
-        function toggleModal() { document.getElementById('langModal').classList.toggle('active'); }
+        function toggleModal() {
+            playButtonSound();
+            document.getElementById('langModal').classList.toggle('active');
+        }
+
+        function toggleSettings() {
+            playButtonSound();
+            document.getElementById('settingsPanel').classList.toggle('open');
+        }
 
         function changeLanguage(lang) {
-            const data = translations[lang];
-            document.getElementById('lang-display-btn').innerText = data.btn;
-            document.getElementById('insane-text').innerText = data.insane;
-            renderBanners(lang);
+            playButtonSound();
+            localStorage.setItem('panzer9_lang', lang);
+            applyLanguage(lang);
             toggleModal();
         }
 
+        function applyLanguage(lang) {
+            const data = translations[lang];
+            document.getElementById('lang-display-btn').innerText = data.btn;
+            document.getElementById('about-btn').innerText = data.aboutBtn;
+            document.getElementById('homeBtn').innerText = data.homeBtn;
+            document.getElementById('insane-text').innerText = data.insane;
+            document.getElementById('lang-modal-title').innerText = data.langTitle;
+            if (lang === 'ua') document.body.classList.add('ua-font');
+            else document.body.classList.remove('ua-font');
+            renderBanners(lang);
+        }
+
+        function playButtonSound() {
+            const isSoundEnabled = JSON.parse(localStorage.getItem('panzer9_button_sound') || 'true');
+            if (isSoundEnabled) {
+                const audio = new Audio('pep.mp3');
+                audio.volume = 0.5;
+                audio.play().catch(() => {});
+            }
+        }
+
+        function toggleButtonSound() {
+            const currentState = JSON.parse(localStorage.getItem('panzer9_button_sound') || 'true');
+            const newState = !currentState;
+            localStorage.setItem('panzer9_button_sound', newState);
+            document.getElementById('button-sound-toggle').classList.toggle('active', !newState);
+            if (newState) playButtonSound();
+        }
+
+        function toggleTheme() {
+            playButtonSound();
+            const currentState = JSON.parse(localStorage.getItem('panzer9_light_theme') || 'false');
+            const newState = !currentState;
+            localStorage.setItem('panzer9_light_theme', newState);
+            document.getElementById('theme-toggle').classList.toggle('active', newState);
+            document.body.classList.toggle('light-theme', newState);
+        }
+
         window.onload = () => {
-            const defaultLang = 'en'; 
-            document.getElementById('lang-display-btn').innerText = translations[defaultLang].btn;
-            document.getElementById('insane-text').innerText = translations[defaultLang].insane;
-            renderBanners(defaultLang);
+            const hasAcceptedDisclaimer = localStorage.getItem('panzer9_disclaimer_accepted') === 'true';
+            
+            if (!hasAcceptedDisclaimer) {
+                setDisclaimerLang('en');
+                document.getElementById('disclaimerOverlay').classList.add('active');
+            } else {
+                document.getElementById('disclaimerOverlay').classList.remove('active');
+                
+                const storedLang = localStorage.getItem('panzer9_lang') || 'en';
+                const data = translations[storedLang];
+                document.getElementById('lang-display-btn').innerText = data.btn;
+                document.getElementById('about-btn').innerText = data.aboutBtn;
+                document.getElementById('home-btn').innerText = data.homeBtn;
+                document.getElementById('insane-text').innerText = data.insane;
+                document.getElementById('lang-modal-title').innerText = data.langTitle;
+                if (storedLang === 'ua') document.body.classList.add('ua-font');
+                renderBanners(storedLang);
+                
+                const isLightTheme = JSON.parse(localStorage.getItem('panzer9_light_theme') || 'false');
+                if (isLightTheme) {
+                    document.body.classList.add('light-theme');
+                    document.getElementById('theme-toggle').classList.add('active');
+                } else {
+                    document.body.classList.remove('light-theme');
+                    document.getElementById('theme-toggle').classList.remove('active');
+                }
+                
+                const isButtonSoundEnabled = JSON.parse(localStorage.getItem('panzer9_button_sound') || 'true');
+                if (!isButtonSoundEnabled) {
+                    document.getElementById('button-sound-toggle').classList.add('active');
+                } else {
+                    document.getElementById('button-sound-toggle').classList.remove('active');
+                }
+            }
         };
     </script>
 </body>
