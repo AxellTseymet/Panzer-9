@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Panzer-9</title>
+    <title>Panzer-9 Bloodbath</title>
     <link rel="icon" type="image/x-icon" href="skull.ico">
 
     <style>
@@ -113,11 +113,59 @@
         .media-card.show { opacity: 1; transform: translateY(0); }
         .media-card:hover { border-color: var(--yellow); transform: scale(1.02); background: #1a1a1a; }
         .video-banner, .image-banner { aspect-ratio: 16/9; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: #000; position: relative; }
-        .image-banner { background: #0a0a0a; padding: 0; }
-        .image-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .banner-text { color: var(--white); font-family: 'Warface', sans-serif; font-size: 2.2rem; text-shadow: 0 0 8px black; background: rgba(0,0,0,0.5); padding: 8px 15px; border-radius: 4px; }
-        .banner-subtext { color: var(--yellow); font-size: 1.1rem; font-family: 'Warface'; text-transform: uppercase; margin-top: 8px; background: rgba(0,0,0,0.6); padding: 4px 12px; border-radius: 20px; }
-        .image-caption { font-family: 'Warface', sans-serif; font-size: 0.85rem; text-align: center; padding: 12px 8px; background: rgba(0,0,0,0.8); color: var(--yellow); border-top: 1px solid #333; letter-spacing: 1px; text-transform: uppercase; }
+        
+        /* Для видео — фоновый с номером */
+        .video-banner {
+            background: #0a0a0a;
+        }
+        .video-number {
+            font-family: 'Warface', monospace;
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--yellow);
+            text-shadow: 0 0 12px black;
+            background: rgba(0,0,0,0.65);
+            padding: 8px 20px;
+            border-radius: 8px;
+            letter-spacing: 2px;
+            backdrop-filter: blur(3px);
+        }
+        .video-sub {
+            font-family: 'Warface', sans-serif;
+            font-size: 0.9rem;
+            color: #fff;
+            text-transform: uppercase;
+            margin-top: 10px;
+            background: rgba(0,0,0,0.6);
+            padding: 4px 15px;
+            border-radius: 30px;
+            letter-spacing: 1px;
+        }
+        
+        /* Для изображений — чистое фото, никакого текста поверх, только картинка во весь блок */
+        .image-banner {
+            background: #050505;
+            padding: 0;
+        }
+        .image-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        /* Никаких превью-текстов! Даже бейдж убран — чистое фото */
+        
+        .image-caption { 
+            font-family: 'Warface', sans-serif; 
+            font-size: 0.85rem; 
+            text-align: center; 
+            padding: 12px 8px; 
+            background: rgba(0,0,0,0.8); 
+            color: var(--yellow); 
+            border-top: 1px solid #333; 
+            letter-spacing: 1px; 
+            text-transform: uppercase; 
+        }
         
         .page-navigation { display: flex; justify-content: center; align-items: center; padding: 40px 20px; background: #000; border-top: 2px solid #222; }
         .nav-button { 
@@ -192,6 +240,7 @@
             .nav-button { padding: 10px 18px; font-size: 0.8rem; min-width: 100px; }
             .disclaimer-content { padding: 20px; }
             .modal-lang-btn { white-space: normal; }
+            .video-number { font-size: 2rem; padding: 5px 12px; }
         }
     </style>
 </head>
@@ -316,24 +365,27 @@
             try { const audio = new Audio('pep.mp3'); audio.volume = 0.4; audio.play().catch(e=>{}); } catch(e) {}
         }
 
-        // EXACT file list: 14.mp4 to 20.mp4, then 23.mp4, then images 21.jpg, 22.jpg
         function buildMediaList() {
+            const rawVideoFiles = ['14.mp4', '15.mp4', '16.mp4', '17.mp4', '18.mp4', '19.mp4', '20.mp4', '23.mp4'];
+            const rawImageFiles = ['21.jpg', '22.jpg'];
+            
             const items = [];
-            // Videos: 14,15,16,17,18,19,20
-            for (let i = 14; i <= 20; i++) {
-                items.push({ type: 'video', src: `${i}.mp4`, labelNum: i });
+            let displayCounter = 23;
+            
+            for (let file of rawVideoFiles) {
+                items.push({ type: 'video', src: file, displayNumber: displayCounter });
+                displayCounter++;
             }
-            // Video 23.mp4
-            items.push({ type: 'video', src: `23.mp4`, labelNum: 23 });
-            // Images without overlay (clean)
-            items.push({ type: 'image', src: '21.jpg', labelNum: 21 });
-            items.push({ type: 'image', src: '22.jpg', labelNum: 22 });
+            for (let file of rawImageFiles) {
+                items.push({ type: 'image', src: file, displayNumber: displayCounter });
+                displayCounter++;
+            }
             return items;
         }
 
         function getLocalizedCaption(item, lang) {
-            if (item.type === 'video') return `${translations[lang].subtext} #${item.labelNum}`;
-            return `${translations[lang].imageLabel} #${item.labelNum}`;
+            if (item.type === 'video') return `${translations[lang].subtext} #${item.displayNumber}`;
+            return `${translations[lang].imageLabel} #${item.displayNumber}`;
         }
 
         function openMedia(item) {
@@ -374,38 +426,35 @@
             grid.innerHTML = '';
             const items = buildMediaList();
             currentMediaItems = items;
+            
             items.forEach((item, idx) => {
                 const card = document.createElement('div');
                 card.className = 'media-card';
                 card.onclick = () => openMedia(item);
                 const innerDiv = document.createElement('div');
                 innerDiv.className = item.type === 'video' ? 'video-banner' : 'image-banner';
-                if (item.type === 'image') {
-                    // Clean image without any text overlay on top - only the photo itself
+                
+                if (item.type === 'video') {
+                    const numberSpan = document.createElement('div');
+                    numberSpan.className = 'video-number';
+                    numberSpan.textContent = `#${item.displayNumber}`;
+                    const subSpan = document.createElement('div');
+                    subSpan.className = 'video-sub';
+                    subSpan.textContent = translations[lang].subtext;
+                    innerDiv.appendChild(numberSpan);
+                    innerDiv.appendChild(subSpan);
+                } 
+                else { 
                     const img = document.createElement('img');
                     img.src = item.src;
-                    img.alt = `archive ${item.labelNum}`;
+                    img.alt = `archive ${item.displayNumber}`;
                     img.style.width = '100%';
                     img.style.height = '100%';
                     img.style.objectFit = 'cover';
                     innerDiv.appendChild(img);
-                    // small badge in corner (minimal)
-                    const badge = document.createElement('div');
-                    badge.style.position = 'absolute';
-                    badge.style.bottom = '10px';
-                    badge.style.right = '10px';
-                    badge.style.backgroundColor = 'rgba(0,0,0,0.7)';
-                    badge.style.color = 'var(--yellow)';
-                    badge.style.fontFamily = "'Warface', sans-serif";
-                    badge.style.fontSize = '1rem';
-                    badge.style.padding = '4px 10px';
-                    badge.style.borderRadius = '4px';
-                    badge.style.borderLeft = `3px solid var(--yellow)`;
-                    badge.innerText = `#${item.labelNum}`;
-                    innerDiv.appendChild(badge);
-                } else {
-                    innerDiv.innerHTML = `<div class="banner-text">#${item.labelNum}</div><div class="banner-subtext">${translations[lang].subtext}</div>`;
+
                 }
+
                 const captionDiv = document.createElement('div');
                 captionDiv.className = 'image-caption';
                 captionDiv.innerText = getLocalizedCaption(item, lang);
