@@ -28,7 +28,7 @@
             --danger-stripe: repeating-linear-gradient(45deg, #ffcc00, #ffcc00 20px, #000 20px, #40px);
         }
 
-        .ua-font #lang-display-btn, .ua-font #about-btn, .ua-font #home-btn,
+        .ua-font #lang-display-btn, .ua-font #about-btn, .ua-font #home-btn, .ua-font #dev-btn,
         .ua-font #insane-text, .ua-font .banner-subtext, .ua-font .modal-lang-btn,
         .ua-font .lang-modal h2, .ua-font .settings-panel h3, .ua-font .settings-item label,
         .ua-font .nav-button, .ua-font .disclaimer-content { font-family: 'RussoOne-Regular', sans-serif !important; }
@@ -43,9 +43,9 @@
         .logo { font-family: 'Wolfenstein', serif !important; color: #ffffff; font-size: clamp(1.8rem, 5vw, 3.5rem); text-transform: uppercase; line-height: 1; letter-spacing: 2px; }
         #insane-text { font-family: 'Warface', sans-serif; color: var(--red); font-size: 0.9rem; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
         .header-right { display: flex; align-items: center; gap: 15px; }
-        #home-btn, #about-btn, #lang-display-btn { font-family: 'Warface', sans-serif !important; padding: 10px 25px; font-size: 0.9rem; white-space: nowrap; cursor: pointer; transition: 0.2s; background: none; border: 2px solid var(--yellow); color: var(--yellow); }
+        #home-btn, #about-btn, #lang-display-btn, #dev-btn { font-family: 'Warface', sans-serif !important; padding: 10px 25px; font-size: 0.9rem; white-space: nowrap; cursor: pointer; transition: 0.2s; background: none; border: 2px solid var(--yellow); color: var(--yellow); }
         #home-btn { background: var(--yellow); border: 2px solid var(--yellow); color: #000; }
-        #home-btn:hover, #about-btn:hover, #lang-display-btn:hover { background: var(--yellow); color: #000; transform: scale(0.97); }
+        #home-btn:hover, #about-btn:hover, #lang-display-btn:hover, #dev-btn:hover { background: var(--yellow); color: #000; transform: scale(0.97); }
         #settings-btn { background: none; border: none; cursor: pointer; padding: 5px; display: flex; align-items: center; }
         #settings-btn img { height: 35px; width: 35px; transition: 0.2s; }
         .settings-panel { 
@@ -109,11 +109,15 @@
         .disclaimer-lang-selector { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
         .disclaimer-lang-btn { background: #111; color: var(--yellow); border: 2px solid var(--yellow); padding: 6px 14px; font-family: 'Warface'; font-size: 0.8rem; cursor: pointer; transition: 0.2s; }
         .disclaimer-lang-btn.active { background: var(--yellow); color: #000; }
+        
+        /* Additional style for dev button if needed */
+        #dev-btn { margin-left: 5px; }
+        
         @media (max-width: 768px) {
             header { height: auto; padding: 20px 5%; flex-direction: column; gap: 15px; }
             #settings-btn { position: absolute; top: 15px; right: 15px; }
             .header-right { width: 100%; justify-content: center; flex-wrap: wrap; }
-            #home-btn, #about-btn, #lang-display-btn { padding: 6px 12px; font-size: 0.7rem; }
+            #home-btn, #about-btn, #lang-display-btn, #dev-btn { padding: 6px 12px; font-size: 0.7rem; }
             .video-grid { padding: 30px 5%; gap: 15px; }
             .nav-button { padding: 10px 18px; font-size: 0.8rem; }
             .disclaimer-content { padding: 20px; }
@@ -184,6 +188,7 @@
         <div class="header-right">
             <button id="home-btn">HOME</button>
             <button id="about-btn">ABOUT US</button>
+            <button id="dev-btn">Dev</button>
             <button id="lang-display-btn">LANG</button>
             <button id="settings-btn"><img src="gear.png" alt="Settings" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffcc00%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M19.14 12.94c.04-.3.06-.61.06-.94 0-.33-.02-.64-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.3-.06.61-.06.94 0 .33.02.64.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-2 0-3.6-1.6-3.6-3.6s1.6-3.6 3.6-3.6 3.6 1.6 3.6 3.6-1.6 3.6-3.6 3.6z%22/%3E%3C/svg%3E'"></button>
         </div>
@@ -200,10 +205,19 @@
 
 <script>
     (function() {
+        function playCloseSound() {
+            if (typeof window.__buttonSoundEnabled !== 'undefined' && !window.__buttonSoundEnabled) return;
+            try {
+                const audio = new Audio('wpeew.mp3');
+                audio.volume = 0.45;
+                audio.play().catch(e => console.log("close sound blocked or missing file"));
+            } catch(e) {}
+        }
+
         const translations = {
-            en: { btn: "LANG", subtext: "VIDEO", cat2: "STICKERS", insane: "Every day we go insane", aboutBtn: "ABOUT US", homeBtn: "HOME", langTitle: "SELECT LANGUAGE", footer: "2013-2026 © Panzer-9.", settingsTitle: "SETTINGS", soundLabel: "Disable button sound", themeLabel: "Light theme", closeSettings: "CLOSE", navBtn: "BLOODBATH >" },
-            ru: { btn: "ЯЗЫК", subtext: "ВИДЕО", cat2: "СТИКЕРЫ", insane: "Каждый день мы сходим с ума", aboutBtn: "О НАС", homeBtn: "ГЛАВНАЯ", langTitle: "ВЫБЕРИТЕ ЯЗЫК", footer: "2013-2026 © Panzer-9.", settingsTitle: "ПАРАМЕТРЫ", soundLabel: "Отключить звук кнопок", themeLabel: "Светлая тема", closeSettings: "ЗАКРЫТЬ", navBtn: "КРОВАВАЯ БАНЯ &gt;" },
-            ua: { btn: "МОВА", subtext: "ВІДЕО", cat2: "СТІКЕРИ", insane: "Кожен день ми божеволіємо", aboutBtn: "ПРО НАС", homeBtn: "ГОЛОВНА", langTitle: "ОБЕРІТЬ МОВУ", footer: "2013-2026 © Panzer-9.", settingsTitle: "ПАРАМЕТРИ", soundLabel: "Вимкнути звук кнопок", themeLabel: "Світла тема", closeSettings: "ЗАКРИТИ", navBtn: "КРИВАВА БАНЯ &gt;" }
+            en: { btn: "LANG", subtext: "VIDEO", cat2: "STICKERS", insane: "Every day we go insane", aboutBtn: "ABOUT US", homeBtn: "HOME", devBtn: "DEV", langTitle: "SELECT LANGUAGE", footer: "2013-2026 © Panzer-9.", settingsTitle: "SETTINGS", soundLabel: "Disable button sound", themeLabel: "Light theme", closeSettings: "CLOSE", navBtn: "BLOODBATH >" },
+            ru: { btn: "ЯЗЫК", subtext: "ВИДЕО", cat2: "СТИКЕРЫ", insane: "Каждый день мы сходим с ума", aboutBtn: "О НАС", homeBtn: "ГЛАВНАЯ", devBtn: "РОЗРАБ", langTitle: "ВЫБЕРИТЕ ЯЗЫК", footer: "2013-2026 © Panzer-9.", settingsTitle: "ПАРАМЕТРЫ", soundLabel: "Отключить звук кнопок", themeLabel: "Светлая тема", closeSettings: "ЗАКРЫТЬ", navBtn: "КРОВАВАЯ БАНЯ &gt;" },
+            ua: { btn: "МОВА", subtext: "ВІДЕО", cat2: "СТІКЕРИ", insane: "Кожен день ми божеволіємо", aboutBtn: "ПРО НАС", homeBtn: "ГОЛОВНА", devBtn: "РОЗРОБ", langTitle: "ОБЕРІТЬ МОВУ", footer: "2013-2026 © Panzer-9.", settingsTitle: "ПАРАМЕТРИ", soundLabel: "Вимкнути звук кнопок", themeLabel: "Світла тема", closeSettings: "ЗАКРИТИ", navBtn: "КРИВАВА БАНЯ &gt;" }
         };
 
         const disclaimerTexts = {
@@ -215,6 +229,7 @@
         let currentLang = 'en';
         let buttonSoundEnabled = true;
         let lightThemeEnabled = false;
+        window.__buttonSoundEnabled = buttonSoundEnabled;
 
         function playButtonSound() {
             if (!buttonSoundEnabled) return;
@@ -266,6 +281,9 @@
         function closeVideo() {
             const modal = document.getElementById('videoModal');
             const player = document.getElementById('mainPlayer');
+            if (modal.classList.contains('active')) {
+                playCloseSound();
+            }
             modal.classList.remove('active');
             player.pause();
             player.src = '';
@@ -278,6 +296,8 @@
             document.getElementById('lang-display-btn').innerText = dict.btn;
             document.getElementById('about-btn').innerText = dict.aboutBtn;
             document.getElementById('home-btn').innerText = dict.homeBtn;
+            const devBtn = document.getElementById('dev-btn');
+            if (devBtn) devBtn.innerText = dict.devBtn;
             document.getElementById('insane-text').innerText = dict.insane;
             document.getElementById('lang-modal-title').innerText = dict.langTitle;
             document.getElementById('footer-text').innerHTML = dict.footer;
@@ -291,11 +311,29 @@
             renderGrid(lang);
         }
 
-        function toggleModal() { playButtonSound(); document.getElementById('langModal').classList.toggle('active'); }
-        function toggleSettings() { playButtonSound(); document.getElementById('settingsPanel').classList.toggle('open'); }
+        function toggleModal() { 
+            playButtonSound(); 
+            const modal = document.getElementById('langModal');
+            const wasActive = modal.classList.contains('active');
+            if (wasActive) {
+                playCloseSound();
+            }
+            modal.classList.toggle('active'); 
+        }
+        
+        function toggleSettings() { 
+            playButtonSound(); 
+            const panel = document.getElementById('settingsPanel');
+            const wasOpen = panel.classList.contains('open');
+            if (wasOpen) {
+                playCloseSound();
+            }
+            panel.classList.toggle('open'); 
+        }
         
         function toggleButtonSoundUI() {
             buttonSoundEnabled = !buttonSoundEnabled;
+            window.__buttonSoundEnabled = buttonSoundEnabled;
             localStorage.setItem('panzer9_button_sound', buttonSoundEnabled);
             const toggle = document.getElementById('button-sound-toggle');
             if (toggle) toggle.classList.toggle('active', !buttonSoundEnabled);
@@ -314,7 +352,11 @@
         function changeLanguage(lang) {
             playButtonSound();
             applyLanguage(lang, true);
-            toggleModal();
+            const modal = document.getElementById('langModal');
+            if (modal.classList.contains('active')) {
+                playCloseSound();
+            }
+            modal.classList.remove('active');
         }
 
         function resetHome() {
@@ -331,6 +373,11 @@
         function goToBloodbath() {
             playButtonSound();
             window.location.href = 'bloodbath.html';
+        }
+
+        function goToDevPage() {
+            playButtonSound();
+            window.location.href = 'avtor.html';
         }
 
         let disclaimerLang = 'en';
@@ -356,8 +403,12 @@
         
         function enterSite() {
             playButtonSound();
+            const overlay = document.getElementById('disclaimerOverlay');
+            if (overlay.classList.contains('active')) {
+                playCloseSound();
+            }
             localStorage.setItem('panzer9_disclaimer_accepted', 'true');
-            document.getElementById('disclaimerOverlay').classList.remove('active');
+            overlay.classList.remove('active');
             const savedLang = localStorage.getItem('panzer9_lang') || 'en';
             applyLanguage(savedLang, false);
             const savedTheme = localStorage.getItem('panzer9_light_theme') === 'true';
@@ -365,13 +416,19 @@
             else { lightThemeEnabled = false; document.body.classList.remove('light-theme'); document.getElementById('theme-toggle')?.classList.remove('active'); }
             const savedSound = localStorage.getItem('panzer9_button_sound') !== 'false';
             buttonSoundEnabled = savedSound;
+            window.__buttonSoundEnabled = buttonSoundEnabled;
             const soundToggle = document.getElementById('button-sound-toggle');
             if(soundToggle) soundToggle.classList.toggle('active', !buttonSoundEnabled);
         }
         
-        function exitToGoogle() { playButtonSound(); window.location.href = 'https://www.google.com'; }
+        function exitToGoogle() { 
+            playButtonSound(); 
+            window.location.href = 'https://www.google.com'; 
+        }
 
         window.onload = () => {
+            window.__buttonSoundEnabled = buttonSoundEnabled;
+            
             if (localStorage.getItem('panzer9_disclaimer_accepted') !== 'true') {
                 document.getElementById('disclaimerOverlay').classList.add('active');
                 setDisclaimerLang('en');
@@ -382,26 +439,32 @@
                 if(savedTheme) { lightThemeEnabled = true; document.body.classList.add('light-theme'); document.getElementById('theme-toggle')?.classList.add('active'); }
                 const savedSound = localStorage.getItem('panzer9_button_sound') !== 'false';
                 buttonSoundEnabled = savedSound;
+                window.__buttonSoundEnabled = buttonSoundEnabled;
                 const soundToggle = document.getElementById('button-sound-toggle');
                 if(soundToggle) soundToggle.classList.toggle('active', !buttonSoundEnabled);
             }
             
             document.getElementById('home-btn').onclick = resetHome;
             document.getElementById('about-btn').onclick = navigateToAbout;
+            document.getElementById('dev-btn').onclick = goToDevPage;
             document.getElementById('lang-display-btn').onclick = toggleModal;
             document.getElementById('settings-btn').onclick = toggleSettings;
             document.getElementById('close-settings-text').onclick = toggleSettings;
             document.getElementById('theme-toggle').onclick = toggleThemeUI;
             document.getElementById('button-sound-toggle').onclick = toggleButtonSoundUI;
             document.getElementById('next-page-btn').onclick = goToBloodbath;
-            document.querySelector('.close-video').onclick = closeVideo;
+            
+            const closeVideoBtn = document.querySelector('.close-video');
+            if(closeVideoBtn) closeVideoBtn.onclick = closeVideo;
             document.getElementById('videoModal').onclick = closeVideo;
             document.querySelector('.video-content').onclick = (e) => e.stopPropagation();
+            
             document.getElementById('langModal').onclick = toggleModal;
             document.querySelector('.lang-modal').onclick = (e) => e.stopPropagation();
             document.querySelectorAll('.modal-lang-btn').forEach(btn => {
                 btn.onclick = () => changeLanguage(btn.getAttribute('data-lang'));
             });
+            
             document.getElementById('disclaimerEnterBtn').onclick = enterSite;
             document.getElementById('disclaimerExitBtn').onclick = exitToGoogle;
             document.getElementById('ageConfirm').onchange = () => {
