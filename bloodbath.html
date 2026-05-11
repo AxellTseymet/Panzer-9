@@ -33,6 +33,7 @@
         .ua-font #home-btn, 
         .ua-font #about-btn, 
         .ua-font #lang-display-btn,
+        .ua-font #dev-btn,
         .ua-font .nav-button,
         .ua-font .modal-lang-btn,
         .ua-font .disclaimer-lang-btn,
@@ -52,7 +53,7 @@
             }
         }
 
-        .ua-font #lang-display-btn, .ua-font #about-btn, .ua-font #home-btn,
+        .ua-font #lang-display-btn, .ua-font #about-btn, .ua-font #home-btn, .ua-font #dev-btn,
         .ua-font #insane-text, .ua-font .banner-subtext, .ua-font .modal-lang-btn,
         .ua-font .lang-modal h2 { font-family: 'RussoOne-Regular', sans-serif !important; }
 
@@ -65,7 +66,7 @@
         .logo { font-family: 'Wolfenstein', serif !important; color: #ffffff; font-size: clamp(1.8rem, 5vw, 3.5rem); text-transform: uppercase; line-height: 1; letter-spacing: 2px; }
         #insane-text { font-family: 'Warface', sans-serif; color: var(--red); font-size: 0.9rem; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
         .header-right { display: flex; align-items: center; gap: 15px; }
-        #home-btn, #about-btn, #lang-display-btn { 
+        #home-btn, #about-btn, #lang-display-btn, #dev-btn { 
             font-family: 'Warface', sans-serif !important; 
             padding: 10px 25px; 
             font-size: 0.9rem; 
@@ -79,7 +80,7 @@
             text-align: center;
         }
         #home-btn { background: var(--yellow); border: 2px solid var(--yellow); color: #000; }
-        #home-btn:hover, #about-btn:hover, #lang-display-btn:hover { background: var(--yellow); color: #000; transform: scale(0.97); }
+        #home-btn:hover, #about-btn:hover, #lang-display-btn:hover, #dev-btn:hover { background: var(--yellow); color: #000; transform: scale(0.97); }
         #settings-btn { background: none; border: none; cursor: pointer; padding: 5px; display: flex; align-items: center; }
         #settings-btn img { height: 35px; width: 35px; transition: 0.2s; }
         .settings-panel { 
@@ -113,8 +114,7 @@
         .media-card.show { opacity: 1; transform: translateY(0); }
         .media-card:hover { border-color: var(--yellow); transform: scale(1.02); background: #1a1a1a; }
         .video-banner, .image-banner { aspect-ratio: 16/9; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: #000; position: relative; }
-        
-        /* Для видео — фоновый с номером */
+
         .video-banner {
             background: #0a0a0a;
         }
@@ -141,8 +141,7 @@
             border-radius: 30px;
             letter-spacing: 1px;
         }
-        
-        /* Для изображений — чистое фото, никакого текста поверх, только картинка во весь блок */
+
         .image-banner {
             background: #050505;
             padding: 0;
@@ -153,7 +152,6 @@
             object-fit: cover;
             display: block;
         }
-        /* Никаких превью-текстов! Даже бейдж убран — чистое фото */
         
         .image-caption { 
             font-family: 'Warface', sans-serif; 
@@ -167,7 +165,7 @@
             text-transform: uppercase; 
         }
         
-        .page-navigation { display: flex; justify-content: center; align-items: center; padding: 40px 20px; background: #000; border-top: 2px solid #222; }
+        .page-navigation { display: flex; justify-content: center; align-items: center; padding: 40px 20px; background: #000; border-top: 2px solid #222; gap: 30px; }
         .nav-button { 
             font-family: 'Warface', sans-serif; 
             font-size: 1rem; 
@@ -235,7 +233,7 @@
             header { height: auto; padding: 20px 5%; flex-direction: column; gap: 15px; }
             #settings-btn { position: absolute; top: 15px; right: 15px; }
             .header-right { width: 100%; justify-content: center; flex-wrap: wrap; }
-            #home-btn, #about-btn, #lang-display-btn { padding: 6px 12px; font-size: 0.7rem; min-width: 70px; }
+            #home-btn, #about-btn, #lang-display-btn, #dev-btn { padding: 6px 12px; font-size: 0.7rem; min-width: 70px; }
             .media-grid { padding: 30px 5%; gap: 15px; }
             .nav-button { padding: 10px 18px; font-size: 0.8rem; min-width: 100px; }
             .disclaimer-content { padding: 20px; }
@@ -309,6 +307,7 @@
         <div class="header-right">
             <button id="home-btn">HOME</button>
             <button id="about-btn">ABOUT US</button>
+            <button id="dev-btn">Dev</button>
             <button id="lang-display-btn">LANG</button>
             <button id="settings-btn"><img src="gear.png" alt="Settings" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffcc00%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M19.14 12.94c.04-.3.06-.61.06-.94 0-.33-.02-.64-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.3-.06.61-.06.94 0 .33.02.64.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-2 0-3.6-1.6-3.6-3.6s1.6-3.6 3.6-3.6 3.6 1.6 3.6 3.6-1.6 3.6-3.6 3.6z%22/%3E%3C/svg%3E'"></button>
         </div>
@@ -328,21 +327,21 @@
         const translations = {
             en: { 
                 btn: "LANG", subtext: "VIDEO", imageLabel: "PHOTO", backBtn: "BACK",
-                insane: "Every day we go insane", aboutBtn: "ABOUT US", homeBtn: "HOME", langTitle: "SELECT LANGUAGE", 
+                insane: "Every day we go insane", aboutBtn: "ABOUT US", homeBtn: "HOME", devBtn: "DEV", langTitle: "SELECT LANGUAGE", 
                 footer: "2013-2026 © Panzer-9.",
                 settingsTitle: "SETTINGS", closeSettings: "CLOSE", soundLabel: "Disable button sound", themeLabel: "Light theme",
                 closeVideo: "[ X CLOSE ]"
             },
             ru: { 
                 btn: "ЯЗЫК", subtext: "ВИДЕО", imageLabel: "ФОТО", backBtn: "НАЗАД",
-                insane: "Каждый день мы сходим с ума", aboutBtn: "О НАС", homeBtn: "ГЛАВНАЯ", langTitle: "ВЫБЕРИТЕ ЯЗЫК", 
+                insane: "Каждый день мы сходим с ума", aboutBtn: "О НАС", homeBtn: "ГЛАВНАЯ", devBtn: "РОЗРАБ", langTitle: "ВЫБЕРИТЕ ЯЗЫК", 
                 footer: "2013-2026 © Panzer-9.",
                 settingsTitle: "ПАРАМЕТРЫ", closeSettings: "ЗАКРЫТЬ", soundLabel: "Отключить звук кнопок", themeLabel: "Светлая тема",
                 closeVideo: "[ X ЗАКРЫТЬ ]"
             },
             ua: { 
                 btn: "МОВА", subtext: "ВІДЕО", imageLabel: "ФОТО", backBtn: "НАЗАД",
-                insane: "Кожен день ми божеволіємо", aboutBtn: "ПРО НАС", homeBtn: "ГОЛОВНА", langTitle: "ОБЕРІТЬ МОВУ", 
+                insane: "Кожен день ми божеволіємо", aboutBtn: "ПРО НАС", homeBtn: "ГОЛОВНА", devBtn: "РОЗРОБ", langTitle: "ОБЕРІТЬ МОВУ", 
                 footer: "2013-2026 © Panzer-9.",
                 settingsTitle: "НАЛАШТУВАННЯ", closeSettings: "ЗАКРИТИ", soundLabel: "Вимкнути звук кнопок", themeLabel: "Світла тема",
                 closeVideo: "[ X ЗАКРИТИ ]"
@@ -473,12 +472,14 @@
             document.getElementById('lang-display-btn').innerText = dict.btn;
             document.getElementById('about-btn').innerText = dict.aboutBtn;
             document.getElementById('home-btn').innerText = dict.homeBtn;
+            const devBtn = document.getElementById('dev-btn');
+            if (devBtn) devBtn.innerText = dict.devBtn;
             document.getElementById('insane-text').innerText = dict.insane;
             document.getElementById('lang-modal-title').innerText = dict.langTitle;
             document.getElementById('footer-text').innerText = dict.footer;
  
             const backBtn = document.getElementById('back-page-btn');
-            if (backBtn) backBtn.innerText = dict.backBtn + " <";
+            if (backBtn) backBtn.innerText = dict.backBtn;
     
             document.getElementById('settingsTitle').innerText = dict.settingsTitle;
             document.getElementById('closeSettingsText').innerText = dict.closeSettings;
@@ -520,8 +521,9 @@
             toggleModal();
         }
 
-        function resetHome() { playButtonSound(); applyLanguage(currentLang, false); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function resetHome() { playButtonSound(); window.location.href = 'index.html'; }
         function navigateToAbout() { playButtonSound(); window.location.href = 'about.html'; }
+        function goToDevPage() { playButtonSound(); window.location.href = 'avtor.html'; }
         function goBack() { playButtonSound(); window.history.back(); }
 
         let disclaimerLang = 'en';
@@ -578,6 +580,8 @@
             
             document.getElementById('home-btn').onclick = resetHome;
             document.getElementById('about-btn').onclick = navigateToAbout;
+            const devBtn = document.getElementById('dev-btn');
+            if (devBtn) devBtn.onclick = goToDevPage;
             document.getElementById('lang-display-btn').onclick = toggleModal;
             document.getElementById('settings-btn').onclick = toggleSettings;
             document.querySelector('.close-settings-ver').onclick = toggleSettings;
