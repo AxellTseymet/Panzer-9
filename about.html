@@ -31,7 +31,7 @@
         header {
             background: #000; display: flex; justify-content: space-between; align-items: center;
             padding: 0 5%; position: sticky; top: 0; z-index: 1000; border-bottom: 5px solid var(--yellow);
-            min-height: 130px; gap: 20px; flex-wrap: nowrap;
+            min-height: 130px; gap: 20px; flex-wrap: wrap;
         }
         header::before {
             content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 6px;
@@ -39,7 +39,7 @@
             pointer-events: none;
         }
         @keyframes moveStripes { to { background-position: 56.5px 0; } }
-        .left-side { display: flex; align-items: center; height: 100%; gap: 15px; flex-shrink: 1; }
+        .left-side { display: flex; align-items: center; height: 100%; gap: 15px; flex-shrink: 0; }
         .header-pic { height: 75px; width: auto; object-fit: contain; }
         .logo-area { display: flex; flex-direction: column; }
         .logo { font-family: 'Wolfenstein', serif; font-size: clamp(1.8rem, 5vw, 3.2rem); text-transform: uppercase; letter-spacing: 2px; color: #fff; line-height: 1.1; }
@@ -50,9 +50,8 @@
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            gap: 6px;
+            gap: 8px;
             flex-wrap: nowrap;
-            margin-left: auto;
             flex-shrink: 0;
         }
         .header-right button, #lang-display-btn, #dev-btn {
@@ -60,8 +59,8 @@
             background: none;
             border: 2px solid var(--yellow);
             color: var(--yellow);
-            padding: 5px 10px;
-            font-size: 0.7rem;
+            padding: 6px 14px;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: .2s;
             white-space: nowrap;
@@ -72,36 +71,48 @@
             letter-spacing: 0.5px;
             background-color: transparent;
             border-radius: 2px;
-            height: 32px;
+            height: 34px;
+            min-width: 70px;
         }
         .header-right button:hover, #lang-display-btn:hover, #dev-btn:hover { background: var(--yellow); color: #000; transform: scale(0.97); }
         #about-btn { background: var(--yellow); color: #000; }
         #about-btn:hover { background: none; color: var(--yellow); }
+ 
+        body.ua-font .header-right button, 
+        body.ua-font #lang-display-btn, 
+        body.ua-font #dev-btn {
+            padding: 6px 8px;
+            font-size: 0.68rem;
+            min-width: 60px;
+        }
         
         #settings-btn {
             background: none;
             border: 2px solid var(--yellow);
             cursor: pointer;
-            padding: 5px;
+            padding: 5px 8px;
             margin: 0;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 32px;
-            height: 32px;
+            width: auto;
+            min-width: 34px;
+            height: 34px;
             vertical-align: middle;
             line-height: 1;
             transition: .2s;
             border-radius: 2px;
             flex-shrink: 0;
         }
-        #settings-btn:hover { background: var(--yellow); color: #000; transform: scale(0.97); }
+        #settings-btn:hover { background: var(--yellow); transform: scale(0.97); }
         #settings-btn img { 
-            width: 16px; 
-            height: 16px; 
-            transition: .2s;
+            width: 18px; 
+            height: 18px; 
             display: block;
-            vertical-align: middle;
+            filter: brightness(0) saturate(100%) invert(83%) sepia(43%) saturate(1811%) hue-rotate(5deg) brightness(106%) contrast(105%);
+        }
+        #settings-btn:hover img {
+            filter: brightness(0) saturate(100%) invert(0%);
         }
 
         .settings-panel {
@@ -153,39 +164,48 @@
         body.ua-font .lang-modal h2, body.ua-font .settings-panel h3, body.ua-font .settings-item label,
         body.ua-font .close-settings-ver { font-family: 'RussoOne', sans-serif !important; }
         
-        @media (max-width: 760px) {
-            header { padding: 15px 4%; gap: 12px; flex-wrap: wrap; min-height: auto; }
-            .left-side { flex: 1 1 auto; justify-content: center; }
-            .header-right { 
-                margin-left: 0; 
-                justify-content: center; 
-                width: 100%; 
-                flex-wrap: wrap; 
-                gap: 10px; 
-            }
-            .header-right button, #lang-display-btn, #dev-btn {
-                padding: 6px 14px;
-                min-width: 80px;
-                font-size: 0.75rem;
-            }
-            #settings-btn { 
-                width: auto; 
-                height: auto;
-                padding: 0;
-                margin: 0;
-            }
-            #settings-btn img { width: 32px; height: 32px; }
-            #insane-text { font-size: 0.7rem; white-space: normal; text-align: center; }
+        @media (max-width: 860px) {
+            header { flex-direction: column; padding: 15px 4%; gap: 15px; }
+            .left-side { flex-shrink: 1; }
+            .header-right { flex-wrap: wrap; justify-content: center; width: 100%; gap: 8px; }
         }
         
         @media (max-width: 550px) {
-            .header-right button, #lang-display-btn, #dev-btn { min-width: 70px; padding: 6px 10px; font-size: 0.7rem; }
-            .header-right { gap: 8px; }
-            #settings-btn img { width: 30px; height: 30px; }
+            .header-right button, #lang-display-btn, #dev-btn { 
+                padding: 5px 10px; 
+                font-size: 0.7rem; 
+                min-width: 65px; 
+                height: 32px; 
+            }
+            body.ua-font .header-right button, 
+            body.ua-font #lang-display-btn, 
+            body.ua-font #dev-btn {
+                padding: 5px 6px;
+                font-size: 0.6rem;
+                min-width: 55px;
+            }
+            #settings-btn { height: 32px; min-width: 32px; padding: 4px 6px; }
+            #settings-btn img { width: 16px; height: 16px; }
+            #insane-text { font-size: 0.7rem; white-space: normal; text-align: center; }
         }
-        @media (max-width: 480px) {
-            .header-right button, #lang-display-btn, #dev-btn { min-width: 65px; padding: 5px 8px; font-size: 0.65rem; }
-            #settings-btn img { width: 28px; height: 28px; }
+        
+        @media (max-width: 400px) {
+            .header-right { gap: 5px; }
+            .header-right button, #lang-display-btn, #dev-btn { 
+                padding: 4px 8px; 
+                font-size: 0.65rem; 
+                min-width: 55px; 
+                height: 30px; 
+            }
+            body.ua-font .header-right button, 
+            body.ua-font #lang-display-btn, 
+            body.ua-font #dev-btn {
+                padding: 4px 5px;
+                font-size: 0.55rem;
+                min-width: 50px;
+            }
+            #settings-btn { height: 30px; min-width: 30px; }
+            #settings-btn img { width: 14px; height: 14px; }
         }
     </style>
 </head>
@@ -216,10 +236,11 @@
         <div class="header-right">
             <button id="home-btn">HOME</button>
             <button id="about-btn">ABOUT US</button>
-            <button id="dev-btn">Dev</button>
+            <button id="dev-btn">DEV</button>
             <button id="lang-display-btn">LANG</button>
             <button id="settings-btn">
-                <img src="gear.png" alt="Settings" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffcc00%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M19.14 12.94c.04-.3.06-.61.06-.94 0-.33-.02-.64-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.3-.06.61-.06.94 0 .33.02.64.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-2 0-3.6-1.6-3.6-3.6s1.6-3.6 3.6-3.6 3.6 1.6 3.6 3.6-1.6 3.6-3.6 3.6z%22/%3E%3C/svg%3E'">
+                <img src="gear.png" alt="⚙" style="width:18px; height:18px; display:block;" 
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27%23ffcc00%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M19.14 12.94c.04-.3.06-.61.06-.94 0-.33-.02-.64-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.3-.06.61-.06.94 0 .33.02.64.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-2 0-3.6-1.6-3.6-3.6s1.6-3.6 3.6-3.6 3.6 1.6 3.6 3.6-1.6 3.6-3.6 3.6z%27/%3E%3C/svg%3E'">
             </button>
         </div>
     </header>
@@ -253,7 +274,7 @@
                                 the world without filters — immediately break the connection.</li><li>We are not responsible for your choice, but we are responsible for preserving the facts.</li></ul>`
         },
         ru: {
-            homeBtn: "ГЛАВНАЯ", aboutBtn: "О НАС", langBtn: "ЯЗЫК", devBtn: "РОЗРАБ",
+            homeBtn: "ГЛАВНАЯ", aboutBtn: "О НАС", langBtn: "ЯЗЫК", devBtn: "РАЗРАБ",
             insane: "Каждый день мы сходим с ума", langTitle: "ВЫБЕРИТЕ ЯЗЫК",
             settingsTitle: "ПАРАМЕТРЫ", soundLabel: "Отключить звук кнопок", themeLabel: "Светлая тема",
             closeSettings: "ЗАКРЫТЬ", photosTitle: "",
@@ -261,12 +282,12 @@
             text: `<p>Мы не ищем публичности. Panzer-9 — это автономный цифровой узел, созданный для тех, кто понимает разницу между фиксацией реальности и её поддержкой. Этот ресурс функционирует как «черный ящик» — устройство, которое записывает момент катастрофы, чтобы извлечь из неё данные.</p><p>Здесь хранятся исходные файлы, которые слишком «тяжелы» для обычного веба. Мы собираем артефакты цифровой и биологической энтропии. Это не развлечение и не пропаганда. Это визуальное свидетельство того, насколько хрупка человеческая жизнь и насколько глубоко может пасть система.</p><p>НАША ПОЗИЦИЯ: ПРЕДЕЛЬНОЕ ОСУЖДЕНИЕ.</p><p>Мы категорически осуждаем любые проявления насилия, жестокости и деструктивного поведения в реальном мире.</p><p>Размещенные материалы служат лишь одной цели: показать неприглядную, изнаночную сторону бытия, которую современный «стерильный» интернет пытается игнорировать.</p><p>Мы не создаем этот контент. Мы лишь транслируем его как предупреждение о том, что происходит за пределами зоны комфорта.</p><p>Panzer-9 — это зеркало, которое не виновато в том, что отражение ужасно.</p><ul><li>Если вы не готовы видеть мир без фильтров — немедленно разорвите соединение.</li><li>Мы не несем ответственности за ваш выбор, но мы несем ответственность за сохранение фактов.</li></ul>`
         },
         ua: {
-            homeBtn: "ГОЛОВНА", aboutBtn: "ПРО НАС", langBtn: "МОВА", devBtn: "РОЗРОБ",
+            homeBtn: "ГОЛОВНА", aboutBtn: "ПРО НАС", langBtn: "МОВА", devBtn: "РОЗР",
             insane: "Кожен день ми божеволіємо", langTitle: "ОБЕРІТЬ МОВУ",
             settingsTitle: "ПАРАМЕТРИ", soundLabel: "Вимкнути звук кнопок", themeLabel: "Світла тема",
             closeSettings: "ЗАКРИТИ", photosTitle: "",
             footer: "2013-2026 © Panzer-9. Всі права захищено",
-            text: `<p>Ми не шукаємо публічності. Panzer-9 — це автономни�� цифровий вузол, створений для тих, хто розуміє різницю між фіксацією реальності та її підтримкою. Цей ресурс функціонує як «чорна скринька» — пристрій, який записує момент катастрофи, щоб витягти з нього дані.</p><p>Тут зберігаються вихідні файли, які занадто «важкі» для звичайного вебу. Ми збираємо артефакти цифрової та біологічної ентропії. Це не розвага і не пропаганда. Це візуальні свідчення того, наскільки крихке людське життя і наскільки глибоко може впасти система.</p><p>НАША ПОЗИЦІЯ: ПРЕДЕЛЬНЕ ОСУДЖЕННЯ.</p><p>Ми категорично засуджуємо будь-які прояви насильства, жорстокості та деструктивної поведінки в реальному світі.</p><p>Розміщені матеріали служать лише одній меті: показати непривабливу, вивернуту сторону буття, яку сучасний «стерильний» інтернет намагається ігнорувати.</p><p>Ми не створюємо цей контент. Ми лише транслюємо його як попередження про те, що відбувається за межами зони комфорту.</p><p>Panzer-9 — це дзеркало, яке не винне в тому, що відображення жахливе.</p><ul><li>Якщо ви не готові бачити світ без фільтрів — негайно розірвіть з'єднання.</li><li>Ми не несемо відповідальності за ваш вибір, але ми несемо відповідальність за збереження фактів.</li></ul>`
+            text: `<p>Ми не шукаємо публічності. Panzer-9 — це автономний цифровий вузол, створений для тих, хто розуміє різницю між фіксацією реальності та її підтримкою. Цей ресурс функціонує як «чорна скринька» — пристрій, який записує момент катастрофи, щоб витягти з нього дані.</p><p>Тут зберігаються вихідні файли, які занадто «важкі» для звичайного вебу. Ми збираємо артефакти цифрової та біологічної ентропії. Це не розвага і не пропаганда. Це візуальні свідчення того, наскільки крихке людське життя і наскільки глибоко може впасти система.</p><p>НАША ПОЗИЦІЯ: ПРЕДЕЛЬНЕ ОСУДЖЕННЯ.</p><p>Ми категорично засуджуємо будь-які прояви насильства, жорстокості та деструктивної поведінки в реальному світі.</p><p>Розміщені матеріали служать лише одній меті: показати непривабливу, вивернуту сторону буття, яку сучасний «стерильний» інтернет намагається ігнорувати.</p><p>Ми не створюємо цей контент. Ми лише транслюємо його як попередження про те, що відбувається за межами зони комфорту.</p><p>Panzer-9 — це дзеркало, яке не винне в тому, що відображення жахливе.</p><ul><li>Якщо ви не готові бачити світ без фільтрів — негайно розірвіть з'єднання.</li><li>Ми не несемо відповідальності за ваш вибір, але ми несемо відповідальність за збереження фактів.</li></ul>`
         }
     };
 
@@ -309,15 +330,11 @@
 
         document.title = `Panzer-9 — ${t.aboutBtn}`;
  
-        if (lang === 'ua') document.body.classList.add('ua-font');
-        else document.body.classList.remove('ua-font');
-        
-        const allBtns = document.querySelectorAll('.header-right button, #lang-display-btn, #dev-btn');
-        allBtns.forEach(btn => {
-            if(btn.id !== 'settings-btn') {
-                btn.style.whiteSpace = 'nowrap';
-            }
-        });
+        if (lang === 'ua') {
+            document.body.classList.add('ua-font');
+        } else {
+            document.body.classList.remove('ua-font');
+        }
     }
 
     function changeLanguage(lang) {
@@ -328,12 +345,6 @@
 
     function openModal() { playButtonSound(); document.getElementById('langModal').classList.add('active'); }
     function closeModal() { document.getElementById('langModal').classList.remove('active'); }
-    function toggleModal() { 
-        playButtonSound(); 
-        const modal = document.getElementById('langModal');
-        if (modal.classList.contains('active')) closeModal();
-        else openModal();
-    }
     
     function toggleSettings() { 
         playButtonSound(); 
@@ -403,7 +414,7 @@
         document.getElementById('about-btn').onclick = () => navigateTo('about.html');
         const devBtn = document.getElementById('dev-btn');
         if (devBtn) devBtn.onclick = goToDevPage;
-        document.getElementById('lang-display-btn').onclick = toggleModal;
+        document.getElementById('lang-display-btn').onclick = openModal;
         document.getElementById('settings-btn').onclick = toggleSettings;
         document.getElementById('themeToggle').onclick = toggleTheme;
         document.getElementById('soundToggle').onclick = toggleSound;
@@ -413,10 +424,6 @@
         });
 
         document.getElementById('langModal').onclick = (e) => { if (e.target === e.currentTarget) closeModal(); };
-
-        const styleFix = document.createElement('style');
-        styleFix.textContent = `.header-right { display: flex; flex-direction: row; align-items: center; gap: 6px; flex-wrap: nowrap; } @media (max-width: 760px){ .header-right { flex-wrap: wrap; } }`;
-        document.head.appendChild(styleFix);
     };
 </script>
 </body>
