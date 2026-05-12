@@ -2,38 +2,72 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Panzer-9</title>
     <link rel="icon" type="image/x-icon" href="avtor/skull.ico">
     <style>
         @font-face { font-family: 'Warface'; src: url('Warface.ttf'); font-display: swap; }
         @font-face { font-family: 'Wolfenstein'; src: url('wolfenstein.ttf'); font-display: swap; }
         @font-face { font-family: 'RussoOne'; src: url('RussoOne-Regular.ttf'); font-display: swap; }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background: url('avtor/flektarn.jpg') fixed center/cover;
-            font-family: 'Warface', sans-serif;
+            background: url('avtor/flektarn.jpg') center/cover no-repeat;
+            background-attachment: scroll;
+            font-family: 'Warface', 'Courier New', monospace;
             color: #fff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
+        
         body::before {
             content: '';
-            position: fixed;
+            position: absolute;
             inset: 0;
             background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.8) 70%, #000 100%);
             pointer-events: none;
             z-index: 0;
         }
+
+        @media (min-width: 1024px) {
+            body {
+                background-attachment: fixed;
+            }
+            body::before {
+                position: fixed;
+            }
+        }
+        
         body.light-theme::before {
             background: linear-gradient(to bottom, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0.6) 70%, #fff 100%);
         }
-        body.light-theme .msg-bubble, body.light-theme .comic-speech { background: rgba(240,240,240,0.95); color: #000; border-color: #333; }
-        body.light-theme .footer-rights, body.light-theme .back-footer-btn { background: rgba(240,240,240,0.95); color: #000; border-color: #333; }
-        body.light-theme .settings-panel { background: #2a2a2a; }
-        body.light-theme .settings-panel h3, body.light-theme .settings-item label { color: #ffcc00; }
-
+        
+        body.light-theme .msg-bubble, 
+        body.light-theme .comic-speech { 
+            background: rgba(240,240,240,0.95); 
+            color: #000; 
+            border-color: #333; 
+        }
+        
+        body.light-theme .footer-rights, 
+        body.light-theme .back-footer-btn { 
+            background: rgba(240,240,240,0.95); 
+            color: #000; 
+            border-color: #333; 
+        }
+        
+        body.light-theme .settings-panel { 
+            background: #2a2a2a; 
+        }
+        
+        body.light-theme .settings-panel h3, 
+        body.light-theme .settings-item label { 
+            color: #ffcc00; 
+        }
+        
         header {
             background: url('avtor/camo.jpg') center/cover;
             display: flex;
@@ -46,6 +80,7 @@
             top: 0;
             z-index: 100;
         }
+        
         header::before {
             content: '';
             position: absolute;
@@ -56,10 +91,29 @@
             background: repeating-linear-gradient(45deg, #ffcc00, #ffcc00 20px, #000 20px, #000 40px);
             animation: move 1.2s linear infinite;
         }
-        @keyframes move { from { background-position: 0 0; } to { background-position: 56.5px 0; } }
-        .logo { font-family: 'Wolfenstein', serif; font-size: clamp(1.8rem, 5vw, 3.5rem);color: #000000;}
-        #insane-text { font-family: 'Warface', sans-serif; color: #ff0000; font-size: 0.9rem; margin-top: 5px; }
-        body.ua-active #insane-text { font-family: 'RussoOne', sans-serif; }
+        
+        @keyframes move { 
+            from { background-position: 0 0; } 
+            to { background-position: 56.5px 0; } 
+        }
+        
+        .logo { 
+            font-family: 'Wolfenstein', serif; 
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
+            color: #000000;
+        }
+        
+        #insane-text { 
+            font-family: 'Warface', sans-serif; 
+            color: #ff0000; 
+            font-size: 0.9rem; 
+            margin-top: 5px; 
+        }
+        
+        body.ua-active #insane-text { 
+            font-family: 'RussoOne', sans-serif; 
+        }
+        
         .nav-btn {
             padding: 10px 25px;
             background: rgba(0,0,0,0.5);
@@ -67,10 +121,28 @@
             color: #ffcc00;
             cursor: pointer;
             transition: 0.2s;
+            white-space: nowrap;
         }
-        .nav-btn.active { background: #ffcc00; color: #000; }
-        .nav-btn:hover { background: #ffcc00; color: #000; transform: scale(0.97); }
-        .header-right { display: flex; align-items: center; gap: 10px; height: 50px; flex-wrap: nowrap; }
+        
+        .nav-btn.active { 
+            background: #ffcc00; 
+            color: #000; 
+        }
+        
+        .nav-btn:hover { 
+            background: #ffcc00; 
+            color: #000; 
+            transform: scale(0.97); 
+        }
+        
+        .header-right { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            height: 50px; 
+            flex-wrap: nowrap; 
+        }
+        
         #settings-btn { 
             background: none; 
             border: none; 
@@ -83,42 +155,133 @@
             padding: 0;
             flex-shrink: 0;
         }
-        #settings-btn img { height: 38px; width: 38px; transition: 0.2s; filter: invert(82%) sepia(73%) saturate(376%) hue-rotate(5deg) brightness(105%) contrast(101%); }
-        #settings-btn img:hover { transform: rotate(30deg); }
+        
+        #settings-btn img { 
+            height: 38px; 
+            width: 38px; 
+            transition: 0.2s; 
+            filter: invert(82%) sepia(73%) saturate(376%) hue-rotate(5deg) brightness(105%) contrast(101%); 
+        }
+        
+        #settings-btn img:hover { 
+            transform: rotate(30deg); 
+        }
         
         .settings-panel {
-            position: fixed; right: -350px; top: 0; width: 320px; height: 100vh;
-            background: #0a0a0a; border-left: 3px solid #ffcc00;
-            transition: right 0.3s; padding: 20px; z-index: 8000;
+            position: fixed; 
+            right: -350px; 
+            top: 0; 
+            width: 320px; 
+            height: 100vh;
+            background: #0a0a0a; 
+            border-left: 3px solid #ffcc00;
+            transition: right 0.3s; 
+            padding: 20px; 
+            z-index: 8000;
         }
-        .settings-panel.open { right: 0; }
+        
+        .settings-panel.open { 
+            right: 0; 
+        }
+        
         .close-settings {
-            position: absolute; left: -45px; top: 50%;
-            background: #ffcc00; color: #000; padding: 12px 6px;
-            writing-mode: vertical-rl; cursor: pointer; font-family: 'Warface', sans-serif;
+            position: absolute; 
+            left: -45px; 
+            top: 50%;
+            background: #ffcc00; 
+            color: #000; 
+            padding: 12px 6px;
+            writing-mode: vertical-rl; 
+            cursor: pointer; 
+            font-family: 'Warface', sans-serif;
         }
-        .settings-item { display: flex; justify-content: space-between; padding: 12px; background: rgba(0,0,0,0.5); margin-bottom: 15px; border-radius: 4px; }
-        .settings-item label { font-family: 'Warface', sans-serif; }
-        .toggle-switch { width: 50px; height: 26px; background: #555; border-radius: 13px; cursor: pointer; position: relative; }
-        .toggle-switch.active { background: #ffcc00; }
-        .toggle-switch::after { content: ''; position: absolute; width: 20px; height: 20px; background: #000; border-radius: 50%; top: 2px; left: 2px; }
-        .toggle-switch.active::after { left: 26px; }
         
-        .feed-container {
-            position: relative;
-            z-index: 1;
-            flex: 1;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-            padding: 50px 5% 0;
+        .settings-item { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 12px; 
+            background: rgba(0,0,0,0.5); 
+            margin-bottom: 15px; 
+            border-radius: 4px; 
         }
-        .axell-msg { display: flex; gap: 20px; max-width: 70%; margin-bottom: 80px; }
-        .ava-axell { width: 70px; height: 70px; border: 3px solid #000; object-fit: cover; border-radius: 4px; }
-        .msg-bubble { background: rgba(0,0,0,0.9); border: 3px solid #000; padding: 20px; border-radius: 4px; }
-        .msg-author { color: #ff0000; margin-bottom: 8px; }
         
-        .comic-scene { display: flex; flex-direction: column; align-items: flex-end; margin-top: 20px; }
+        .settings-item label { 
+            font-family: 'Warface', sans-serif; 
+        }
+        
+        .toggle-switch { 
+            width: 50px; 
+            height: 26px; 
+            background: #555; 
+            border-radius: 13px; 
+            cursor: pointer; 
+            position: relative; 
+        }
+        
+        .toggle-switch.active { 
+            background: #ffcc00; 
+        }
+        
+        .toggle-switch::after { 
+            content: ''; 
+            position: absolute; 
+            width: 20px; 
+            height: 20px; 
+            background: #000; 
+            border-radius: 50%; 
+            top: 2px; 
+            left: 2px; 
+        }
+        
+        .toggle-switch.active::after { 
+            left: 26px; 
+        }
+.feed-container {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 50px 5% 0;
+    -webkit-overflow-scrolling: touch;
+    min-height: calc(100vh - 400px);
+}
+        
+        .axell-msg { 
+            display: flex; 
+            gap: 20px; 
+            max-width: 70%; 
+            margin-bottom: 80px; 
+        }
+        
+        .ava-axell { 
+            width: 70px; 
+            height: 70px; 
+            border: 3px solid #000; 
+            object-fit: cover; 
+            border-radius: 4px; 
+        }
+        
+        .msg-bubble { 
+            background: rgba(0,0,0,0.9); 
+            border: 3px solid #000; 
+            padding: 20px; 
+            border-radius: 4px; 
+        }
+        
+        .msg-author { 
+            color: #ff0000; 
+            margin-bottom: 8px; 
+        }
+        
+        .comic-scene { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: flex-end; 
+            margin-top: 20px; 
+        }
+        
         .comic-speech {
             background: rgba(0,0,0,0.95);
             border: 4px solid #000;
@@ -129,6 +292,7 @@
             position: relative;
             border-radius: 4px;
         }
+        
         .comic-speech::after {
             content: '';
             position: absolute;
@@ -138,7 +302,7 @@
             border-style: solid;
             border-color: #000 transparent transparent;
         }
-
+        
         .essence {
             max-height: 500px;
             width: auto;
@@ -147,11 +311,12 @@
             margin-top: 10px;
             animation: breathe 6s ease-in-out infinite;
         }
+        
         @keyframes breathe {
             0%, 100% { transform: translateY(0) scale(1); }
             50% { transform: translateY(-12px) scale(1.02); }
         }
-
+        
         footer {
             background: url('avtor/camo.jpg') center/cover;
             border-top: 5px solid #ffcc00;
@@ -161,6 +326,7 @@
             z-index: 1000;
             margin-top: -20px;
         }
+        
         .footer-rights {
             border: 3px solid #000;
             padding: 10px 25px;
@@ -168,6 +334,7 @@
             background: rgba(0,0,0,0.9);
             margin-bottom: 15px;
         }
+        
         .back-footer-btn {
             padding: 10px 35px;
             background: rgba(0,0,0,0.85);
@@ -176,13 +343,26 @@
             cursor: pointer;
             display: inline-block;
         }
-        .back-footer-btn:hover { background: #ffcc00; color: #000; }
-
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            z-index: 9999; display: none; justify-content: center; align-items: center;
+        
+        .back-footer-btn:hover { 
+            background: #ffcc00; 
+            color: #000; 
         }
-        .modal-overlay.active { display: flex; }
+        
+        .modal-overlay {
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.95);
+            z-index: 9999; 
+            display: none; 
+            justify-content: center; 
+            align-items: center;
+        }
+        
+        .modal-overlay.active { 
+            display: flex; 
+        }
+        
         .lang-modal {
             background: url('avtor/camo.jpg') center/cover;
             border: 5px solid #ffcc00;
@@ -193,47 +373,127 @@
             position: relative;
             border-radius: 8px;
         }
+        
         .lang-modal::before {
-            content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.75);
+            content: ''; 
+            position: absolute; 
+            inset: 0; 
+            background: rgba(0,0,0,0.75);
             border-radius: 4px;
         }
-        .lang-modal h2, .modal-lang-btn { position: relative; z-index: 1; }
-        .lang-modal h2 { color: #ffcc00; margin-bottom: 30px; font-family: 'Warface', sans-serif; }
-        .modal-lang-btn {
-            width: 100%; padding: 14px; margin-bottom: 15px;
-            background: #111; border: 2px solid #ffcc00; color: #fff;
-            cursor: pointer; transition: 0.2s;
-        }
-        .modal-lang-btn:hover { background: #ffcc00; color: #000; }
         
+        .lang-modal h2, 
+        .modal-lang-btn { 
+            position: relative; 
+            z-index: 1; 
+        }
+        
+        .lang-modal h2 { 
+            color: #ffcc00; 
+            margin-bottom: 30px; 
+            font-family: 'Warface', sans-serif; 
+        }
+        
+        .modal-lang-btn {
+            width: 100%; 
+            padding: 14px; 
+            margin-bottom: 15px;
+            background: #111; 
+            border: 2px solid #ffcc00; 
+            color: #fff;
+            cursor: pointer; 
+            transition: 0.2s;
+        }
+        
+        .modal-lang-btn:hover { 
+            background: #ffcc00; 
+            color: #000; 
+        }
+
         @media (max-width: 768px) {
-            header { flex-direction: column; height: auto; padding: 15px; gap: 10px; }
+            header { 
+                flex-direction: column; 
+                height: auto; 
+                padding: 15px; 
+                gap: 10px; 
+            }
+            
             .header-right { 
                 flex-wrap: wrap; 
                 justify-content: center;
                 height: auto;
-                gap: 5px;
+                gap: 8px;
             }
+            
             .nav-btn { 
                 padding: 8px 12px; 
-                font-size: 0.7rem; 
+                font-size: 0.75rem; 
                 min-width: 70px;
                 height: 40px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                white-space: nowrap;
             }
+            
+            body.ua-active .nav-btn {
+                font-size: 0.65rem;
+                padding: 8px 8px;
+            }
+            
             #settings-btn {
                 height: 40px;
                 width: 40px;
             }
+            
             #settings-btn img { 
                 height: 28px; 
                 width: 28px;
             }
-            .comic-speech { margin-right: 0; max-width: 90%; }
-            .essence { max-height: 350px; }
-            .axell-msg { max-width: 100%; }
+            
+            .comic-speech { 
+                margin-right: 0; 
+                max-width: 90%; 
+            }
+            
+            .essence { 
+                max-height: 350px; 
+                margin-right: 0;
+            }
+            
+            .axell-msg { 
+                max-width: 100%; 
+            }
+            
+            .settings-panel {
+                width: 280px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .nav-btn {
+                font-size: 0.7rem;
+                padding: 6px 8px;
+                min-width: 60px;
+            }
+            
+            body.ua-active .nav-btn {
+                font-size: 0.55rem;
+                padding: 6px 4px;
+            }
+            
+            .header-right {
+                gap: 5px;
+            }
+        }
+
+        .nav-btn, 
+        .back-footer-btn, 
+        .modal-lang-btn,
+        .close-settings,
+        .toggle-switch {
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
     </style>
 </head>
@@ -242,42 +502,63 @@
 <header>
     <div style="display: flex; align-items: center; gap: 15px;">
         <img src="avtor/skull.ico" height="70" alt="logo">
-        <div><div class="logo">PANZER-9</div><div id="insane-text">Every day we go insane</div></div>
+        <div>
+            <div class="logo">PANZER-9</div>
+            <div id="insane-text">Every day we go insane</div>
+        </div>
     </div>
     <div class="header-right">
         <button class="nav-btn" id="homeBtn">HOME</button>
         <button class="nav-btn" id="aboutBtn">ABOUT US</button>
         <button class="nav-btn" id="devBtn">DEV</button>
         <button class="nav-btn" id="langBtn">LANG</button>
-        <button id="settings-btn"><img src="avtor/gear.png" alt="Settings" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffcc00%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M19.14 12.94c.04-.3.06-.61.06-.94 0-.33-.02-.64-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.3-.06.61-.06.94 0 .33.02.64.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-2 0-3.6-1.6-3.6-3.6s1.6-3.6 3.6-3.6 3.6 1.6 3.6 3.6-1.6 3.6-3.6 3.6z%22/%3E%3C/svg%3E'"></button>
+        <button id="settings-btn" aria-label="Settings">
+            <img src="avtor/gear.png" alt="Settings" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%23ffcc00%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M19.14 12.94c.04-.3.06-.61.06-.94 0-.33-.02-.64-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.3-.06.61-.06.94 0 .33.02.64.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-2 0-3.6-1.6-3.6-3.6s1.6-3.6 3.6-3.6 3.6 1.6 3.6 3.6-1.6 3.6-3.6 3.6z%22/%3E%3C/svg%3E'">
+        </button>
     </div>
 </header>
 
 <div class="feed-container">
     <div class="axell-msg">
         <img src="avtor/axell.jpg" class="ava-axell" alt="AXELL">
-        <div class="msg-bubble"><span class="msg-author" id="axellName">AXELL</span><p id="axellText">Объект в зоне видимости. Леший, подтверди готовность к захвату. Как слышно?</p></div>
+        <div class="msg-bubble">
+            <span class="msg-author" id="axellName">AXELL</span>
+            <p id="axellText">Объект в зоне видимости. Леший, подтверди готовность к захвату. Как слышно?</p>
+        </div>
     </div>
     <div class="comic-scene">
-        <div class="comic-speech"><p class="comic-text" id="leshiiText">"Слышу четко. Цель в перекрестии. Жду команды. В этом камуфляже я — часть леса. Panzer-9 не промахивается."</p></div>
-        <div><img src="avtor/essence.png" class="essence" alt="Leshiy"></div>
+        <div class="comic-speech">
+            <p class="comic-text" id="leshiiText">"Слышу четко. Цель в перекрестии. Жду команды. В этом камуфляже я — часть леса. Panzer-9 не промахивается."</p>
+        </div>
+        <div>
+            <img src="avtor/essence.png" class="essence" alt="Leshiy">
+        </div>
     </div>
 </div>
 
 <footer>
     <div class="footer-rights" id="footerText">2013-2026 © Panzer-9. All rights reserved</div>
-    <div><button class="back-footer-btn" id="backToIndex">← BACK</button></div>
+    <div>
+        <button class="back-footer-btn" id="backToIndex" aria-label="Back">← BACK</button>
+    </div>
 </footer>
 
 <div class="settings-panel" id="settingsPanel">
     <div class="close-settings" id="closeSettings">ЗАКРЫТЬ</div>
     <h3 id="settingsTitle" style="color:#ffcc00;">ПАРАМЕТРЫ</h3>
-    <div class="settings-item"><label id="soundLabel">Отключить звук кнопок</label><div class="toggle-switch" id="soundToggle"></div></div>
-    <div class="settings-item"><label id="themeLabel">Светлая тема</label><div class="toggle-switch" id="themeToggle"></div></div>
+    <div class="settings-item">
+        <label id="soundLabel">Отключить звук кнопок</label>
+        <div class="toggle-switch" id="soundToggle" role="switch" aria-checked="true"></div>
+    </div>
+    <div class="settings-item">
+        <label id="themeLabel">Светлая тема</label>
+        <div class="toggle-switch" id="themeToggle" role="switch" aria-checked="false"></div>
+    </div>
 </div>
 
-<div id="langModal" class="modal-overlay">
-    <div class="lang-modal"><h2 id="modalTitle">SELECT LANGUAGE</h2>
+<div id="langModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="lang-modal">
+        <h2 id="modalTitle">SELECT LANGUAGE</h2>
         <button class="modal-lang-btn" data-lang="en">ENGLISH</button>
         <button class="modal-lang-btn" data-lang="ru">РУССКИЙ</button>
         <button class="modal-lang-btn" data-lang="ua">УКРАЇНСЬКА</button>
@@ -287,26 +568,100 @@
 <script>
 (function(){
     const texts = {
-        en: { insane:"Every day we go insane", home:"HOME", about:"ABOUT US", dev:"DEV", lang:"LANG", axell:"AXELL", axellT:"Materials on this resource contain scenes of extreme violence, violence and biological decay.This content can cause psychological harm!", leshiiT:"Panzer-9, this site is visual evidence of how fragile human life is! And we strongly condemn this.", footer:"2013-2026 © Panzer-9. All rights reserved", settings:"SETTINGS", close:"CLOSE", sound:"Disable button sound", theme:"Light theme", modal:"SELECT LANGUAGE", back:"← BACK" },
-        ru: { insane:"Каждый день мы сходим с ума", home:"ГЛАВНАЯ", about:"О НАС", dev:"РАЗРАБ", lang:"ЯЗЫК", axell:"АКСЕЛЬ", axellT:"Материалы на данном ресурсе содержат сцены предельной жестокости, насилия и биологического распада. Данный контент может нанести вред вашей психике!", leshiiT:"Panzer-9 этот сайт визуальное свидетельство того,насколько хрупка человеческая жизнь! И мы это очень сильно осуждаем.", footer:"2013-2026 © Panzer-9. Все права защищены", settings:"ПАРАМЕТРЫ", close:"ЗАКРЫТЬ", sound:"Отключить звук кнопок", theme:"Светлая тема", modal:"ВЫБЕРИТЕ ЯЗЫК", back:"← НАЗАД" },
-        ua: { insane:"Кожен день ми божеволіємо", home:"ГОЛОВНА", about:"ПРО НАС", dev:"РОЗРОБКА", lang:"МОВА", axell:"АКСЕЛЬ", axellT:"Матеріали на цьому ресурсі містять сцени екстремального насильства, жорстокості та біологічного розпаду. Цей контент може завдати шкоди вашій психіці!", leshiiT:"Panzer-9 цей сайт візуальне свідчення того, наскільки тендітне людське життя! І ми це дуже сильно засуджуємо.", footer:"2013-2026 © Panzer-9. Всі права захищено", settings:"НАЛАШТУВАННЯ", close:"ЗАКРИТИ", sound:"Вимкнути звук кнопок", theme:"Світла тема", modal:"ОБЕРІТЬ МОВУ", back:"← НАЗАД" }
+        en: { 
+            insane: "Every day we go insane", 
+            home: "HOME", 
+            about: "ABOUT US", 
+            dev: "DEV", 
+            lang: "LANG", 
+            axell: "AXELL", 
+            axellT: "Materials on this resource contain scenes of extreme violence, violence and biological decay. This content can cause psychological harm!", 
+            leshiiT: "Panzer-9, this site is visual evidence of how fragile human life is! And we strongly condemn this.", 
+            footer: "2013-2026 © Panzer-9. All rights reserved", 
+            settings: "SETTINGS", 
+            close: "CLOSE", 
+            sound: "Disable button sound", 
+            theme: "Light theme", 
+            modal: "SELECT LANGUAGE", 
+            back: "← BACK" 
+        },
+        ru: { 
+            insane: "Каждый день мы сходим с ума", 
+            home: "ГЛАВНАЯ", 
+            about: "О НАС", 
+            dev: "РАЗРАБ", 
+            lang: "ЯЗЫК", 
+            axell: "АКСЕЛЬ", 
+            axellT: "Материалы на данном ресурсе содержат сцены предельной жестокости, насилия и биологического распада. Данный контент может нанести вред вашей психике!", 
+            leshiiT: "Panzer-9 этот сайт визуальное свидетельство того, насколько хрупка человеческая жизнь! И мы это очень сильно осуждаем.", 
+            footer: "2013-2026 © Panzer-9. Все права защищены", 
+            settings: "ПАРАМЕТРЫ", 
+            close: "ЗАКРЫТЬ", 
+            sound: "Отключить звук кнопок", 
+            theme: "Светлая тема", 
+            modal: "ВЫБЕРИТЕ ЯЗЫК", 
+            back: "← НАЗАД" 
+        },
+        ua: { 
+            insane: "Кожен день ми божеволіємо", 
+            home: "ГОЛОВНА", 
+            about: "ПРО НАС", 
+            dev: "РОЗРОБ.", 
+            lang: "МОВА", 
+            axell: "АКСЕЛЬ", 
+            axellT: "Матеріали на цьому ресурсі містять сцени екстремального насильства, жорстокості та біологічного розпаду. Цей контент може завдати шкоди вашій психіці!", 
+            leshiiT: "Panzer-9 цей сайт візуальне свідчення того, наскільки тендітне людське життя! І ми це дуже сильно засуджуємо.", 
+            footer: "2013-2026 © Panzer-9. Всі права захищено", 
+            settings: "НАЛАШТ.", 
+            close: "ЗАКРИТИ", 
+            sound: "Вимкнути звук кнопок", 
+            theme: "Світла тема", 
+            modal: "ОБЕРІТЬ МОВУ", 
+            back: "← НАЗАД" 
+        }
     };
     
     let lang = localStorage.getItem('panzer9_lang') || 'ru';
     let soundOn = localStorage.getItem('panzer9_sound') !== 'false';
     let themeOn = localStorage.getItem('panzer9_theme') === 'true';
+
+    let audioElement = null;
     
-    function playSound(){ if(soundOn) try{ new Audio('pep.mp3').play().catch(e=>{}); }catch(e){} }
+    function playSound() { 
+        if(!soundOn) return;
+        
+        try {
+            if(!audioElement) {
+                audioElement = new Audio('pep.mp3');
+            }
+            audioElement.currentTime = 0;
+            audioElement.play().catch(e => console.log('Audio play failed:', e));
+        } catch(e) {
+            console.log('Audio error:', e);
+        }
+    }
     
-    function applyLanguage(){
+    function setFontFamily() {
+        const font = lang === 'ua' ? "'RussoOne', sans-serif" : "'Warface', sans-serif";
+        document.body.style.fontFamily = font + ", 'Courier New', monospace";
+
+        const elements = document.querySelectorAll('.nav-btn, .back-footer-btn, .modal-lang-btn, .close-settings, .settings-item label');
+        elements.forEach(el => {
+            el.style.fontFamily = font;
+        });
+    }
+    
+    function applyLanguage() {
         let d = texts[lang];
-        if(lang === 'ua'){
-            document.body.style.fontFamily = "'RussoOne', sans-serif";
+        
+        if(lang === 'ua') {
             document.body.classList.add('ua-active');
         } else {
-            document.body.style.fontFamily = "'Warface', sans-serif";
             document.body.classList.remove('ua-active');
         }
+        
+        setFontFamily();
+        
         document.getElementById('insane-text').innerText = d.insane;
         document.getElementById('homeBtn').innerText = d.home;
         document.getElementById('aboutBtn').innerText = d.about;
@@ -321,57 +676,140 @@
         document.getElementById('soundLabel').innerText = d.sound;
         document.getElementById('themeLabel').innerText = d.theme;
         document.getElementById('modalTitle').innerText = d.modal;
-        document.getElementById('backToIndex').innerText = d.back;
+        document.getElementById('backToIndex').innerHTML = d.back;
+    }
+    
+    function setTheme() {
+        if(themeOn) {
+            document.body.classList.add('light-theme');
+        } else {
+            document.body.classList.remove('light-theme');
+        }
+        
+        const themeToggle = document.getElementById('themeToggle');
+        if(themeToggle) {
+            themeToggle.classList.toggle('active', themeOn);
+            themeToggle.setAttribute('aria-checked', themeOn);
+        }
+    }
 
-        let btns = document.querySelectorAll('.nav-btn, .back-footer-btn, .modal-lang-btn, .close-settings, .settings-item label');
-        btns.forEach(btn => {
-            if(lang === 'ua') btn.style.fontFamily = "'RussoOne', sans-serif";
-            else btn.style.fontFamily = "'Warface', sans-serif";
-        });
+    function handleEscapeKey(e) {
+        if(e.key === 'Escape') {
+            const modal = document.getElementById('langModal');
+            const settings = document.getElementById('settingsPanel');
+            
+            if(modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            }
+            if(settings.classList.contains('open')) {
+                settings.classList.remove('open');
+            }
+        }
     }
-    
-    function setTheme(){
-        if(themeOn) document.body.classList.add('light-theme');
-        else document.body.classList.remove('light-theme');
-        document.getElementById('themeToggle').classList.toggle('active', themeOn);
-    }
-    
+
     applyLanguage();
     setTheme();
-    document.getElementById('soundToggle').classList.toggle('active', !soundOn);
     
+    const soundToggle = document.getElementById('soundToggle');
+    if(soundToggle) {
+        soundToggle.classList.toggle('active', !soundOn);
+        soundToggle.setAttribute('aria-checked', soundOn);
+    }
+    
+    const currentPath = window.location.pathname;
     document.getElementById('homeBtn').classList.remove('active');
     document.getElementById('aboutBtn').classList.remove('active');
-    document.getElementById('devBtn').classList.add('active');
-
-    document.getElementById('homeBtn').onclick = () => { playSound(); window.location.href = 'index.html'; };
-    document.getElementById('aboutBtn').onclick = () => { playSound(); window.location.href = 'about.html'; };
-    document.getElementById('devBtn').onclick = () => { playSound(); window.scrollTo({top:0,behavior:'smooth'}); };
-    document.getElementById('backToIndex').onclick = () => { playSound(); window.location.href = 'index.html'; };
-    document.getElementById('langBtn').onclick = () => { playSound(); document.getElementById('langModal').classList.add('active'); };
-    document.getElementById('settings-btn').onclick = () => { playSound(); document.getElementById('settingsPanel').classList.toggle('open'); };
-    document.getElementById('closeSettings').onclick = () => { document.getElementById('settingsPanel').classList.remove('open'); };
-    document.getElementById('soundToggle').onclick = () => {
-        soundOn = !soundOn;
-        localStorage.setItem('panzer9_sound', soundOn);
-        document.getElementById('soundToggle').classList.toggle('active', !soundOn);
-        if(soundOn) playSound();
+    document.getElementById('devBtn').classList.remove('active');
+    
+    if(currentPath.includes('about.html')) {
+        document.getElementById('aboutBtn').classList.add('active');
+    } else if(currentPath.includes('index.html') || currentPath === '/' || currentPath === '') {
+        document.getElementById('homeBtn').classList.add('active');
+    } else {
+        document.getElementById('devBtn').classList.add('active');
+    }
+    
+    // Event listeners
+    document.getElementById('homeBtn').onclick = () => { 
+        playSound(); 
+        window.location.href = 'index.html'; 
     };
-    document.getElementById('themeToggle').onclick = () => {
-        themeOn = !themeOn;
-        localStorage.setItem('panzer9_theme', themeOn);
-        setTheme();
-        playSound();
+    
+    document.getElementById('aboutBtn').onclick = () => { 
+        playSound(); 
+        window.location.href = 'about.html'; 
     };
-    document.getElementById('langModal').onclick = (e) => { if(e.target === document.getElementById('langModal')) document.getElementById('langModal').classList.remove('active'); };
+    
+    document.getElementById('devBtn').onclick = () => { 
+        playSound(); 
+        window.scrollTo({top: 0, behavior: 'smooth'}); 
+    };
+    
+    document.getElementById('backToIndex').onclick = () => { 
+        playSound(); 
+        window.location.href = 'index.html'; 
+    };
+    
+    document.getElementById('langBtn').onclick = () => { 
+        playSound(); 
+        document.getElementById('langModal').classList.add('active'); 
+    };
+    
+    document.getElementById('settings-btn').onclick = () => { 
+        playSound(); 
+        document.getElementById('settingsPanel').classList.toggle('open'); 
+    };
+    
+    document.getElementById('closeSettings').onclick = () => { 
+        document.getElementById('settingsPanel').classList.remove('open'); 
+    };
+    
+    if(soundToggle) {
+        soundToggle.onclick = () => {
+            soundOn = !soundOn;
+            localStorage.setItem('panzer9_sound', soundOn);
+            soundToggle.classList.toggle('active', !soundOn);
+            soundToggle.setAttribute('aria-checked', soundOn);
+            if(soundOn) playSound();
+        };
+    }
+    
+    const themeToggleBtn = document.getElementById('themeToggle');
+    if(themeToggleBtn) {
+        themeToggleBtn.onclick = () => {
+            themeOn = !themeOn;
+            localStorage.setItem('panzer9_theme', themeOn);
+            setTheme();
+            playSound();
+        };
+    }
+    
+    const modal = document.getElementById('langModal');
+    modal.onclick = (e) => { 
+        if(e.target === modal) {
+            modal.classList.remove('active');
+        }
+    };
+    
     document.querySelectorAll('.modal-lang-btn').forEach(btn => {
         btn.onclick = () => {
             lang = btn.getAttribute('data-lang');
             localStorage.setItem('panzer9_lang', lang);
             applyLanguage();
-            document.getElementById('langModal').classList.remove('active');
+            modal.classList.remove('active');
             playSound();
         };
+    });
+
+    document.addEventListener('keydown', handleEscapeKey);
+
+    document.querySelectorAll('button, .toggle-switch').forEach(el => {
+        el.addEventListener('touchstart', (e) => {
+            if(e.touches.length === 1) {
+                e.preventDefault();
+                el.click();
+            }
+        }, { passive: false });
     });
 })();
 </script>
